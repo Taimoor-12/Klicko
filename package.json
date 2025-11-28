@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Taimoor-12/Klicko/issues"
   },
-  "homepage": "https://github.com/Taimoor-12/Klicko#readme"
+  "homepage": "https://github.com/Taimoor-12/Klicko#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
