@@ -1,5 +1,6 @@
 import express from 'express';
 import type { Request, Response, NextFunction, Express } from 'express';
+import AppError from '../shared/errors/AppError';
 
 export default function createApp(): Express {
   const app = express();
@@ -10,7 +11,7 @@ export default function createApp(): Express {
   });
 
   // centralized error handler
-  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
     console.log(err);
     const status = err.statusCode || 500;
     const body: { message: string, stack?: string} = {
