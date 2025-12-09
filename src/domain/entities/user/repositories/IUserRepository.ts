@@ -1,4 +1,4 @@
-import User from "../User";
+import type User from "../User";
 
 export interface IUserRepository {
   findByEmail(email: string): Promise<User | null>;

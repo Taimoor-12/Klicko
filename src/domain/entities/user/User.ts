@@ -2,9 +2,9 @@ class User {
   id: string;
   email: string;
   password: string;
-  name: string;
+  name: string | null;
   createdAt: Date;
-  
+
   constructor({ 
     id, 
     email, 
@@ -15,8 +15,8 @@ class User {
     { id: string, 
       email: string, 
       password: string, 
-      name: string,
-      createdAt: Date
+      name: string | null,
+      createdAt?: Date
     }) {
       this.id = id;
       this.email = email;
