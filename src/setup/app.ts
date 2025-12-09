@@ -1,6 +1,6 @@
 import express from 'express';
 import type { Request, Response, NextFunction, Express } from 'express';
-import AppError from '../shared/errors/AppError';
+import AppError from '../shared/errors/AppError.js';
 
 export default function createApp(): Express {
   const app = express();
@@ -17,7 +17,7 @@ export default function createApp(): Express {
     const body: { message: string, stack?: string} = {
       message: err.message || 'Internal Server Error'
     };
-    if (process.env.NODE_ENV !== 'prod') body.stack = err.stack;
+    if (process.env.NODE_ENV !== 'prod' && err.stack ) body.stack = err.stack;
     res.status(status).json(body);
   });
 
