@@ -1,6 +1,6 @@
 class Email {
   value: string; 
-  constructor({ value } : { value: string }) {
+  constructor(value: string) {
     if (!Email.isValid(value)) throw new Error('Invalid Email');
 
     this.value = value.toLowerCase();
