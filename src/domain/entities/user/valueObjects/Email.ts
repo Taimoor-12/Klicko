@@ -1,7 +1,9 @@
+import InvalidEmailError from "../errors/InvalidEmailError";
+
 class Email {
   private value: string; 
   constructor(value: string) {
-    if (!Email.isValid(value)) throw new Error('Invalid Email');
+    if (!Email.isValid(value)) throw new InvalidEmailError();
 
     this.value = value.toLowerCase();
   }
