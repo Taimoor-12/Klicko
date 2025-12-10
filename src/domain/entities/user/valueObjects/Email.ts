@@ -1,9 +1,13 @@
 class Email {
-  value: string; 
+  private value: string; 
   constructor(value: string) {
     if (!Email.isValid(value)) throw new Error('Invalid Email');
 
     this.value = value.toLowerCase();
+  }
+
+  getValue() {
+    return this.value;
   }
 
   static isValid(value: string): boolean {
