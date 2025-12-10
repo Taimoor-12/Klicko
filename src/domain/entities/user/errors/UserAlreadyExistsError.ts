@@ -1,10 +1,7 @@
 class UserAlreadyExistsError extends Error {
-  statusCode: number;
-  
-  constructor({ message = 'User already exists'} : { message: string }) {
-    super(message);
+  constructor(message?: string) {
+    super(message ?? 'User already exists');
     this.name = 'UserAlreadyExistsError';
-    this.statusCode = 409;
   }
 }
 
