@@ -47,12 +47,14 @@ class UseCase {
 
     const token = await this.tokenService.sign({ userId: savedUser.id, email: savedUser.email });
 
-    return new ResponseDTO({
-      id: savedUser.id,
-      email: savedUser.email,
-      name: savedUser.name,
+    return {
+      user: new ResponseDTO({
+        id: savedUser.id,
+        email: savedUser.email,
+        name: savedUser.name
+      }),
       token
-    });
+    };
   }
 }
 
