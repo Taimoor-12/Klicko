@@ -6,7 +6,7 @@ import Password from "../../../domain/entities/user/valueObjects/Password.js";
 import type { IHashPasswordService } from "../../interfaces/IHashPasswordService.js";
 import type { ITokenService } from "../../interfaces/ITokenService.js";
 import RequestDTO from "./RequestDTO.js";
-import ResponseDTO from "./ResponseDTO.js";
+import ResponseDTO from "../shared/ResponseDTO.js";
 
 class UseCase {
   userRepository: IUserRepository;
@@ -45,7 +45,7 @@ class UseCase {
       name: dto.name ?? '',
     }));
 
-    const token = await this.tokenService.sign({ userId: savedUser.id as string, email: savedUser.email });
+    const token = await this.tokenService.sign({ userId: savedUser.id, email: savedUser.email });
 
     return new ResponseDTO({
       id: savedUser.id,
