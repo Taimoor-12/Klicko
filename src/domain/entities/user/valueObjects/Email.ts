@@ -1,4 +1,4 @@
-import InvalidEmailError from "../errors/InvalidEmailError";
+import InvalidEmailError from "../errors/InvalidEmailError.js";
 
 class Email {
   private value: string; 

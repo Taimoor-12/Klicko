@@ -2,28 +2,29 @@ class User {
   id: string;
   email: string;
   password: string;
-  name: string | null;
-  createdAt: Date;
+  name: string;
+  createdAt?: Date | undefined;
 
-  constructor({ 
-    id, 
+  constructor({
+    id,  
     email, 
-    password, 
+    password,
     name,
     createdAt
    } : 
-    { id: string, 
+    { id?: string;
       email: string, 
       password: string, 
-      name: string | null,
-      createdAt?: Date
+      name: string,
+      createdAt?: Date | undefined
     }) {
-      this.id = id;
+      this.id = id ?? '';
       this.email = email;
       this.password = password;
       this.name = name;
-      this.createdAt = createdAt ?? new Date();
+      this.createdAt = createdAt;
     }
+
 }
 
 export default User;
