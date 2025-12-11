@@ -2,23 +2,19 @@ class ResponseDTO {
   id: string;
   email: string;
   name: string;
-  token: string;
 
   constructor({
     id,
     email,
-    name,
-    token
+    name
   }: {
     id: string,
     email: string,
-    name: string,
-    token: string
+    name: string
   }) {
     this.id = id;
     this.email = email;
     this.name = name;
-    this.token = token;
   }
 }
 
