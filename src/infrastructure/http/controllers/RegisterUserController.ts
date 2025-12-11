@@ -16,15 +16,24 @@ export default function makeRegisterUserController() {
   const hashPasswordService: HashPasswordService = new HashPasswordService();
   const registerUseCase = new RegisterUserUseCase({ userRepository, tokenService, hashPasswordService });
 
-  async function registerUser(req: Request<{}, {}, RequestDTO>, res: Response, next: NextFunction) {
+  async function registerUser(req: Request, res: Response, next: NextFunction) {
     try {
       const dto = new RequestDTO(req.body);
-      const result = await registerUseCase.execute(dto);
-      res.status(201).json(result);
+      const { user, token } = await registerUseCase.execute(dto);
+
+      res.cookie('authToken', token, 
+        { 
+          httpOnly: true, 
+          secure: process.env.NODE_ENV === 'prod',
+          maxAge: 60 * 60 * 1000 // '1h'
+        }
+      );
+
+      res.status(201).json(user);
     } catch (err) {
       if (err instanceof UserAlreadyExistsError) {
         return next(new AppError({ message: err.message, statusCode: 409}));
-      } else if (err instanceof InvalidPasswordError || err instanceof InvalidEmailError) {
+      } else if (err instanceof InvalidEmailError || err instanceof InvalidPasswordError) {
         return next(new AppError({ message: err.message, statusCode: 422}));
       }
 
