@@ -384,7 +384,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Link: 'Link'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,7 +401,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user"
+    modelProps: "user" | "link"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +479,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Link: {
+      payload: Prisma.$LinkPayload<ExtArgs>
+      fields: Prisma.LinkFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LinkFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LinkFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>
+        }
+        findFirst: {
+          args: Prisma.LinkFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LinkFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>
+        }
+        findMany: {
+          args: Prisma.LinkFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>[]
+        }
+        create: {
+          args: Prisma.LinkCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>
+        }
+        createMany: {
+          args: Prisma.LinkCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LinkCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>[]
+        }
+        delete: {
+          args: Prisma.LinkDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>
+        }
+        update: {
+          args: Prisma.LinkUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>
+        }
+        deleteMany: {
+          args: Prisma.LinkDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LinkUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LinkUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>[]
+        }
+        upsert: {
+          args: Prisma.LinkUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LinkPayload>
+        }
+        aggregate: {
+          args: Prisma.LinkAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLink>
+        }
+        groupBy: {
+          args: Prisma.LinkGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LinkGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LinkCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LinkCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -526,6 +601,19 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const LinkScalarFieldEnum = {
+  id: 'id',
+  shortCode: 'shortCode',
+  longUrl: 'longUrl',
+  userId: 'userId',
+  usedCount: 'usedCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LinkScalarFieldEnum = (typeof LinkScalarFieldEnum)[keyof typeof LinkScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -597,6 +685,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -695,6 +797,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  link?: Prisma.LinkOmit
 }
 
 /* Types for Logging */
