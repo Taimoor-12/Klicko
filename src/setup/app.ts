@@ -1,5 +1,6 @@
 import express from 'express';
 import PinoHttp from 'pino-http';
+import cookieParser from 'cookie-parser';
 import logger from '../shared/logger.js';
 import type { Request, Response, NextFunction, Express } from 'express';
 import AppError from '../shared/errors/AppError.js';
@@ -8,6 +9,7 @@ import authRoutes from '../infrastructure/http/routes/authRoutes.js';
 export default function createApp(): Express {
   const app = express();
   app.use(express.json());
+  app.use(cookieParser());
 
   // Incoming request logging
   app.use(PinoHttp({
