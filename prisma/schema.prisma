@@ -20,3 +20,13 @@ model User {
   password  String
   createdAt DateTime    @default(now())
 }
+
+model Link {
+  id        Int         @id @default(autoincrement())
+  shortCode String      @unique
+  longUrl   String
+  userId    String      
+  usedCount Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
