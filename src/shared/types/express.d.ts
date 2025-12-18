@@ -1,7 +1,9 @@
 import type { TokenPayload } from "../../application/interfaces/ITokenService";
 
-declare module 'express' {
-  export interface Request {
-    user?: TokenPayload
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: TokenPayload
+    }
   }
 }
