@@ -5,6 +5,7 @@ import logger from '../shared/logger.js';
 import type { Request, Response, NextFunction, Express } from 'express';
 import AppError from '../shared/errors/AppError.js';
 import authRoutes from '../infrastructure/http/routes/authRoutes.js';
+import linkRoutes from '../infrastructure/http/routes/linkRoutes.js';
 
 export default function createApp(): Express {
   const app = express();
@@ -22,6 +23,7 @@ export default function createApp(): Express {
   }));
 
   app.use('/api/auth', authRoutes);
+  app.use('/api/urls', linkRoutes);
 
   // centralized error handler
   app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
@@ -39,11 +41,13 @@ export default function createApp(): Express {
       'Unhandled error occurred'
     );
 
-    const status = err.statusCode || 500;
-    const body: { message: string, stack?: string} = {
-      message: err.message || 'Internal Server Error'
-    };
+    const status = err instanceof AppError ? err.statusCode : 500;
+    const message = err instanceof AppError ? err.message : 'Internal Server Error';
+    const details = err instanceof AppError ? err.details : undefined;
+    const body: { message: string, stack?: string, details?: any} = { message, details };
+
     if (process.env.NODE_ENV !== 'prod' && err.stack) body.stack = err.stack;
+    
     res.status(status).json(body);
   });
 
