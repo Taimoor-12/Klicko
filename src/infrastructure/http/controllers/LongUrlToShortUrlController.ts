@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from "express";
+import type { NextFunction, Response } from "express";
 import prisma from "../../database/client.js";
 import LinkRepository from "../../database/implementations/LinkRepository.js";
 import LinkSequenceRepository from "../../database/implementations/LinkSequenceRepository.js";
