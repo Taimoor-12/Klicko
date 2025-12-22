@@ -12,7 +12,7 @@ import type { AuthenticatedRequest } from "../AuthenticatedRequest.js";
 export default function makeLongUrlToShortUrlController() {
   const linkRepository: LinkRepository = new LinkRepository(prisma);
   const linkSequenceRepository: LinkSequenceRepository = new LinkSequenceRepository(prisma);
-  const baseUrl = `${process.env.APP_BASE_URL}/${process.env.PORT}`;
+  const baseUrl = `${process.env.APP_BASE_URL}:${process.env.PORT}`;
   const longUrltoShortUrlUseCase = new LongUrlToShortUseCase({ linkRepository, linkSequenceRepository, baseUrl });
 
   async function convertLongUrlToShort(req: AuthenticatedRequest, res: Response, next: NextFunction) {
