@@ -1,32 +1,43 @@
 import ShortCodeDoesNotExistError from "../../../domain/entities/link/errors/ShortCodeDoesNotExistError.js";
 import type { ILinkRepository } from "../../../domain/entities/link/repositories/ILinkRepository.js";
 import ShortCode from "../../../domain/entities/link/valueObjects/ShortCode.js";
+import type { ICacheStore } from "../../interfaces/ICacheStore.js";
 import type RequestDTO from "./RequestDTO.js";
-import ResponesDTO from "./ResponseDTO.js";
+import ResponseDTO from "./ResponseDTO.js";
 
 class UseCase {
   private linkRepository: ILinkRepository;
+  private cacheStore: ICacheStore;
+
   constructor({
-    linkRepository
+    linkRepository,
+    cacheStore
   } : 
   { 
-    linkRepository: ILinkRepository 
+    linkRepository: ILinkRepository,
+    cacheStore: ICacheStore
   }) {
     this.linkRepository = linkRepository;
+    this.cacheStore = cacheStore;
   }
 
   async execute(dto: RequestDTO) {
     const shortCodeVO = new ShortCode({ value: dto.shortCode });
     const shortCode = shortCodeVO.value;
 
-    let linkData = await this.linkRepository.findByShortCode(shortCode);
-    if (!linkData) throw new ShortCodeDoesNotExistError();
+    let longUrl = await this.cacheStore.get(shortCode);
+    if (!longUrl) {
+      let linkData = await this.linkRepository.findByShortCode(shortCode);
+      if (!linkData) throw new ShortCodeDoesNotExistError();
 
-    await this.linkRepository.incrementCount(shortCode);
+      await this.cacheStore.set(shortCode, linkData.longUrl);
 
-    return new ResponesDTO({
-      longUrl: linkData.longUrl
-    });
+      await this.cacheStore.incrementCount(shortCode);
+      
+      longUrl = linkData.longUrl;
+    }
+
+    return new ResponseDTO({ longUrl });
   }
 }
 
