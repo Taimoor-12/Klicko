@@ -8,12 +8,11 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"tsc --watch\" \"nodemon dist/index.js\"",
-
     "prisma": "prisma --config src/prisma.config.ts",
-  "migrate": "npm run prisma -- migrate dev",
-  "migrate-reset": "npm run prisma -- migrate reset",
-  "migrate-create": "npm run prisma -- migrate dev --create-only",
-  "generate": "npm run prisma -- generate"
+    "migrate": "npm run prisma -- migrate dev",
+    "migrate-reset": "npm run prisma -- migrate reset",
+    "migrate-create": "npm run prisma -- migrate dev --create-only",
+    "generate": "npm run prisma -- generate"
   },
   "repository": {
     "type": "git",
@@ -36,7 +35,8 @@
     "nodemon": "^3.1.11",
     "pg": "^8.16.3",
     "pino": "^10.1.0",
-    "pino-http": "^11.0.0"
+    "pino-http": "^11.0.0",
+    "redis": "^5.10.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
