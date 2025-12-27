@@ -31,11 +31,11 @@ class UseCase {
       if (!linkData) throw new ShortCodeDoesNotExistError();
 
       await this.cacheStore.set(shortCode, linkData.longUrl);
-
-      await this.cacheStore.incrementCount(shortCode);
       
       longUrl = linkData.longUrl;
     }
+
+    await this.cacheStore.incrementCount(shortCode);
 
     return new ResponseDTO({ longUrl });
   }
