@@ -6,6 +6,7 @@ import type { Request, Response, NextFunction, Express } from 'express';
 import AppError from '../shared/errors/AppError.js';
 import authRoutes from '../infrastructure/http/routes/authRoutes.js';
 import linkRoutes from '../infrastructure/http/routes/linkRoutes.js';
+import redirectRoute from '../infrastructure/http/routes/redirectRoute.js';
 
 export default function createApp(): Express {
   const app = express();
@@ -22,8 +23,11 @@ export default function createApp(): Express {
     }
   }));
 
+  app.get('/favicon.ico', (_req, res) => res.status(204).end());
+
   app.use('/api/auth', authRoutes);
   app.use('/api/urls', linkRoutes);
+  app.use('/', redirectRoute);
 
   // centralized error handler
   app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
