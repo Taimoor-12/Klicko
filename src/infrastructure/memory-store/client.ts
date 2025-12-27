@@ -1,5 +1,6 @@
 import { createClient } from "redis";
 import logger from "../../shared/logger.js";
+import getEnv from "../../shared/utils/getEnv.js";
 
 const redisUsername = getEnv("REDIS_USERNAME");
 const redisPassword = getEnv("REDIS_PASSWORD");
@@ -55,16 +56,6 @@ try {
 } catch (err) {
   logger.fatal({ err }, "Failed to connect to Redis. Shutting down.");
   process.exit(1); // fail fast — Redis is required
-}
-
-/* ---------- Utils ---------- */
-
-function getEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Missing environment variable: ${name}`);
-  }
-  return value;
 }
 
 export default redisClient;
