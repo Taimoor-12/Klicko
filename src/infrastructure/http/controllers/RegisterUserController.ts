@@ -30,7 +30,7 @@ export default function makeRegisterUserController() {
         }
       );
 
-      res.status(201).json(user);
+      res.status(200).json(user);
     } catch (err) {
       if (err instanceof UserAlreadyExistsError) {
         return next(new AppError({ message: err.message, statusCode: 409}));

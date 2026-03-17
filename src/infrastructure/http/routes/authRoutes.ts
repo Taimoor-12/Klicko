@@ -11,7 +11,7 @@ const loginUserController = makeLoginUserController();
 router.post('/register', registerUserController.registerUser);
 router.post('/login', loginUserController.loginUser);
 router.get('/check', authMiddleware, (req: Request, res: Response) => {
-  res.status(201).json({
+  res.status(200).json({
     loggedIn: true,
     user: {
       userId: req.user?.userId,
