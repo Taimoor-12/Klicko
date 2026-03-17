@@ -28,12 +28,10 @@ export default function makeLoginUserController() {
         }
       );
 
-      res.status(201).json(user);
+      res.status(200).json(user);
     } catch (err) {
-      if (err instanceof UserDoesNotExistError) {
-        return next(new AppError({ message: err.message, statusCode: 404 }));
-      } else if (err instanceof IncorrectPasswordError) {
-        return next(new AppError({ message: err.message, statusCode: 401 }));
+      if (err instanceof UserDoesNotExistError || err instanceof IncorrectPasswordError) {
+        return next(new AppError({ message: 'Invalid email or password', statusCode: 401 }));
       }
 
       return next(err);
