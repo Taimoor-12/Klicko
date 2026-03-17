@@ -15,20 +15,7 @@ class Password {
   }
 
   private static hasUpperCase(value: string) {
-    const upperCaseChars = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
-    const valueArr = this.toCharArray(value);
-
-    for (const char of valueArr) {
-      if (upperCaseChars.includes(char)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private static toCharArray(value: string) {
-    return value.split("");
+    return /[A-Z]/.test(value);
   }
 }
 
