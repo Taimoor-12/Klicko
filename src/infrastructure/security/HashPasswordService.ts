@@ -3,7 +3,7 @@ import type { IHashPasswordService } from "../../application/interfaces/IHashPas
 
 class HashPasswordService implements IHashPasswordService {
   async hashPassword(password: string): Promise<string> {
-    const saltRounds = process.env.BCRYPT_SALT || 10;
+    const saltRounds = process.env.BCRYPT_SALT || 12;
     return bcrypt.hash(password, saltRounds);
   }
 
