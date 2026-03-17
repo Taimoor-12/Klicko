@@ -2,9 +2,10 @@ import type { Request, Response, NextFunction } from "express";
 import AppError from "../../../shared/errors/AppError.js";
 import TokenService from "../../security/TokenService.js";
 
+const tokenService: TokenService = new TokenService();
+
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies?.authToken;
-  const tokenService: TokenService = new TokenService();
 
   if (!token) {
     return next(new AppError({ message: 'No token provided', statusCode: 401 }));
