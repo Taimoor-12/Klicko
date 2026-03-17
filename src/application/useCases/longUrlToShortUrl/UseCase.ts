@@ -7,9 +7,9 @@ import ResponesDTO from "./ResponseDTO.js";
 
 
 class UseCase {
-  linkRepository: ILinkRepository;
-  linkSequenceRepository: ILinkSequenceRepository;
-  baseUrl: string;
+  private readonly linkRepository: ILinkRepository;
+  private readonly linkSequenceRepository: ILinkSequenceRepository;
+  private readonly baseUrl: string;
 
   constructor({ 
     linkRepository, 

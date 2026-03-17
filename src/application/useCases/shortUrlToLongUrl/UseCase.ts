@@ -6,8 +6,8 @@ import type RequestDTO from "./RequestDTO.js";
 import ResponseDTO from "./ResponseDTO.js";
 
 class UseCase {
-  private linkRepository: ILinkRepository;
-  private cacheStore: ICacheStore;
+  private readonly linkRepository: ILinkRepository;
+  private readonly cacheStore: ICacheStore;
 
   constructor({
     linkRepository,

@@ -7,9 +7,9 @@ import ResponseDTO from "../shared/ResponseDTO.js";
 import type RequestDTO from "./RequestDTO.js";
 
 class UseCase {
-  userRepository: IUserRepository;
-  tokenService: ITokenService;
-  hashPasswordService: IHashPasswordService;
+  private readonly userRepository: IUserRepository;
+  private readonly tokenService: ITokenService;
+  private readonly hashPasswordService: IHashPasswordService;
 
   constructor({ 
     userRepository, 
