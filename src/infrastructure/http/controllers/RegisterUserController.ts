@@ -21,11 +21,12 @@ export default function makeRegisterUserController() {
       const dto = new RequestDTO(req.body);
       const { user, token } = await registerUseCase.execute(dto);
 
+      const oneDay = 24 * 60 * 60 * 1000;
       res.cookie('authToken', token, 
         { 
           httpOnly: true, 
           secure: process.env.NODE_ENV === 'prod',
-          maxAge: 60 * 60 * 1000 // '1h'
+          maxAge: oneDay
         }
       );
 
