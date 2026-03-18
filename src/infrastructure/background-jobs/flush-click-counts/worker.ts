@@ -7,15 +7,12 @@ import logger from "../../../shared/logger.js";
 const worker = new Worker(
   "flush-click-counts",
   async () => {
-    const exists = await redisClient.exists("click_counts");
-
-    if (!exists) return;
-
     // 1. Atomic Swap Keys
     const processingKey = 'click_counts_processing';
-
-    if (!await redisClient.exists(processingKey)) {
-      await redisClient.rename("click_counts", processingKey);
+    try {
+      await redisClient.renameNX("click_counts", processingKey);
+    } catch (err: any) {
+      return;
     }
 
     // 2. Read all counts
