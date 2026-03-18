@@ -18,7 +18,6 @@ export default function makeLongUrlToShortUrlController() {
   async function convertLongUrlToShort(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const { longUrl } = req.body;
-      if (!longUrl) throw new AppError({ message: 'Long URL cannot be empty', statusCode: 400 });
 
       const dto = new RequestDTO({
         userId: req.user.userId,
