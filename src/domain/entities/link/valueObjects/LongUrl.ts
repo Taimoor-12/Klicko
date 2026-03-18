@@ -6,22 +6,20 @@ class LongUrl {
 
   constructor({ value } : { value : string }) {
     if (!LongUrl.isValidUrl(value)) throw new InvalidLongUrl();
-    if (!LongUrl.isValidProtocol(value)) throw new InvalidProtocolError();
 
-    this.value = new URL(value).toString();
+    const url = new URL(value);
+
+    if (!LongUrl.isValidProtocol(url)) throw new InvalidProtocolError();
+
+    this.value = url.toString();
   }
 
   private static isValidUrl(value: string) {
     return URL.canParse(value);
   }
 
-  private static isValidProtocol(value: string) {
-    const url = new URL(value);
-    if (url.protocol !== "http:" && url.protocol !== "https:") {
-      return false;
-    }
-
-    return true;
+  private static isValidProtocol(url: URL) {
+    return url.protocol === 'http:' || url.protocol === 'https:';
   }
 }
 
