@@ -2,6 +2,7 @@ import Link from "../../../domain/entities/link/Link.js";
 import type { ILinkRepository } from "../../../domain/entities/link/repositories/ILinkRepository.js";
 import type { ILinkSequenceRepository } from "../../../domain/entities/link/repositories/ILinkSequenceRepository.js";
 import LongUrl from "../../../domain/entities/link/valueObjects/LongUrl.js";
+import ShortCode from "../../../domain/entities/link/valueObjects/ShortCode.js";
 import type RequestDTO from "./RequestDTO.js";
 import ResponesDTO from "./ResponseDTO.js";
 
@@ -30,11 +31,11 @@ class UseCase {
 
     const seqBigInt = await this.linkSequenceRepository.getNextSequenceNumber();
     const seq = Number(seqBigInt);
-    
-    const longToShort = this.toBase62(seq);
+
+    const shortCode = ShortCode.fromSequence(seq);
 
     const linkData = await this.linkRepository.save(new Link({
-      shortCode: longToShort,
+      shortCode: shortCode.value,
       longUrl: longUrl.value,
       userId: dto.userId,
     }));
@@ -42,22 +43,6 @@ class UseCase {
     return new ResponesDTO({ 
       shortUrl: `${this.baseUrl}/${linkData.shortCode}` 
     });
-  }
-
-  private toBase62(num: number): string {
-    const base62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-    if (num === 0) return base62[0]!;
-
-    let result = '';
-
-    while (num > 0) {
-      const remainder = num % 62;
-      result = base62[remainder] + result;
-      num = Math.floor(num / 62);
-    }
-
-    return result;
   }
 }
 
