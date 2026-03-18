@@ -11,7 +11,7 @@ class ShortCode {
   }
  
   private static isValid(value: string) {
-    return !!value && ShortCode.BASE62_REGEX.test(value);
+    return value.length > 0 && ShortCode.BASE62_REGEX.test(value);
   }
 }
 
