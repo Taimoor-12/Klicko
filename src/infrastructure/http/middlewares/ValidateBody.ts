@@ -13,7 +13,7 @@ function validateBody(requiredFields:  string[]) {
       }
     }
 
-    if (errors.length > 0) return next(new AppError({ message: "Validation failed", statusCode: 422, details: errors }));
+    if (errors.length > 0) return next(new AppError({ message: "Required fields are missing", statusCode: 422, details: errors }));
 
     next();
   }
