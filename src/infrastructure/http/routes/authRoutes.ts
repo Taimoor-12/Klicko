@@ -3,6 +3,7 @@ import makeRegisterUserController from '../controllers/RegisterUserController.js
 import makeLoginUserController from '../controllers/LoginUserController.js';
 import { authMiddleware } from '../middlewares/AuthMiddleware.js';
 import makeRateLimiter from '../middlewares/RateLimiting.js';
+import validateBody from '../middlewares/ValidateBody.js';
 
 const router = express.Router();
 
@@ -14,7 +15,8 @@ const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
 
 router.post('/register', makeRateLimiter({ windowMs: ONE_HOUR_MS, limit: 5, prefix: 'rl:register:'}), registerUserController.registerUser);
 router.post('/login', 
-  makeRateLimiter({ windowMs: FIFTEEN_MINUTES_MS, limit: 10, prefix: 'rl:login:ip:' }), 
+  makeRateLimiter({ windowMs: FIFTEEN_MINUTES_MS, limit: 10, prefix: 'rl:login:ip:' }),
+  validateBody(['email', 'password']), 
   makeRateLimiter({ windowMs: FIFTEEN_MINUTES_MS, limit: 10, keyType: 'email', prefix: 'rl:login:email:' }), 
   loginUserController.loginUser
 );
