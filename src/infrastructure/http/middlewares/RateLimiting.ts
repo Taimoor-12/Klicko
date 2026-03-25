@@ -35,7 +35,7 @@ function makeRateLimiter({
     },
 
     store: new RedisStore({
-      prefix: `${prefix}`,
+      prefix,
       sendCommand: (...args: string[]) => RedisClient.sendCommand(args),
     }),
   });
