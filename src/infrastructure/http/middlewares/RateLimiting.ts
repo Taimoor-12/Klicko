@@ -15,9 +15,9 @@ function makeRateLimiter(windowMs: number, limit: number, keyType: KeyType = 'ip
       switch (keyType) {
         case 'userId':
           const authenticatedReq = req as AuthenticatedRequest;
-          return authenticatedReq.user?.userId ?? ipKeyGenerator(req.ip ?? '');
+          return authenticatedReq.user.userId;
         case 'email':
-          return req.body?.email.toLowerCase() ?? ipKeyGenerator(req.ip ?? '');
+          return req.body.email.toLowerCase();
         case 'ip':
         default:
           return ipKeyGenerator(req.ip ?? '');
