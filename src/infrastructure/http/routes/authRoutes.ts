@@ -12,10 +12,10 @@ const loginUserController = makeLoginUserController();
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
 
-router.post('/register', makeRateLimiter(ONE_HOUR_MS, 5), registerUserController.registerUser);
+router.post('/register', makeRateLimiter({ windowMs: ONE_HOUR_MS, limit: 5}), registerUserController.registerUser);
 router.post('/login', 
-  makeRateLimiter(FIFTEEN_MINUTES_MS, 10), 
-  makeRateLimiter(FIFTEEN_MINUTES_MS, 10, 'email'), 
+  makeRateLimiter({ windowMs: FIFTEEN_MINUTES_MS, limit: 10 }), 
+  makeRateLimiter({ windowMs: FIFTEEN_MINUTES_MS, limit: 10, keyType: 'email'}), 
   loginUserController.loginUser
 );
 router.get('/check', authMiddleware, (req: Request, res: Response) => {

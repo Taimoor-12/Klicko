@@ -5,7 +5,15 @@ import type { AuthenticatedRequest } from "../../http/AuthenticatedRequest";
 
 type KeyType = 'ip' | 'userId' | 'email';
 
-function makeRateLimiter(windowMs: number, limit: number, keyType: KeyType = 'ip') {
+function makeRateLimiter({ 
+  windowMs, 
+  limit, 
+  keyType = 'ip'
+} : {
+  windowMs: number,
+  limit: number,
+  keyType?: KeyType
+}) {
   return rateLimit({
     windowMs: windowMs,
     limit: limit,
