@@ -8,11 +8,13 @@ type KeyType = 'ip' | 'userId' | 'email';
 function makeRateLimiter({ 
   windowMs, 
   limit, 
-  keyType = 'ip'
+  keyType = 'ip',
+  prefix
 } : {
   windowMs: number,
   limit: number,
-  keyType?: KeyType
+  keyType?: KeyType,
+  prefix: string
 }) {
   return rateLimit({
     windowMs: windowMs,
@@ -33,6 +35,7 @@ function makeRateLimiter({
     },
 
     store: new RedisStore({
+      prefix: `${prefix}`,
       sendCommand: (...args: string[]) => RedisClient.sendCommand(args),
     }),
   });
