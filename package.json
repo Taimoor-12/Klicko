@@ -12,6 +12,8 @@
     "migrate": "npm run prisma -- migrate dev",
     "migrate-reset": "npm run prisma -- migrate reset",
     "migrate-create": "npm run prisma -- migrate dev --create-only",
+    "prisma-test": "prisma --config src/prisma.test.config.ts",
+    "migrate-test": "npm run prisma-test -- migrate deploy",
     "generate": "npm run prisma -- generate"
   },
   "repository": {
