@@ -8,7 +8,7 @@ import HashPasswordService from '../../../../src/infrastructure/security/HashPas
 import TokenService from '../../../../src/infrastructure/security/TokenService.js';
 import LinkRepository from '../../../../src/infrastructure/database/implementations/LinkRepository.js';
 import LinkSequenceRepository from '../../../../src/infrastructure/database/implementations/LinkSequenceRepository.js';
-import getEnv from '../../../../src/shared/utils/getEnv.js'
+import getEnv from '../../../../src/shared/utils/getEnv.js';
 
 describe('long url to short url use case', () => {
   const registerUseCase = new RegisterUseCase({
