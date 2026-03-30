@@ -4,7 +4,7 @@ import client from '../../../../src/infrastructure/database/client.js';
 import UserRepository from '../../../../src/infrastructure/database/implementations/UserRepository.js';
 import HashPasswordService from '../../../../src/infrastructure/security/HashPasswordService.js';
 import TokenService from '../../../../src/infrastructure/security/TokenService.js';
-import UserAlreadyExistsError from '../../../../src/domain/entities/user/errors/UserAlreadyExistsError';
+import UserAlreadyExistsError from '../../../../src/domain/entities/user/errors/UserAlreadyExistsError.js';
 
 describe('register use case', () => {
   const useCase = new RegisterUseCase({
