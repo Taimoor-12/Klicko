@@ -55,4 +55,24 @@ describe('login use case', () => {
     
     expect(result.token).toBeDefined();
   });
+
+  it('throws if the user does not exists', async () => {
+    await expect(loginUseCase.execute({
+      email: TEST_EMAIL,
+      password: 'Password123'
+    })).rejects.toThrow(UserDoesNotExistError);
+  });
+
+  it('throws if the password is incorrect', async () => {
+    await registerUseCase.execute({
+      email: TEST_EMAIL,
+      password: 'Password123',
+      name: 'Test'
+    });
+
+    await expect(loginUseCase.execute({
+      email: TEST_EMAIL,
+      password: 'Password1234'
+    })).rejects.toThrow(IncorrectPasswordError);
+  });
 });
