@@ -15,8 +15,8 @@ const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
 
 router.post(
   "/register",
-  validateBody(["email", "password"]),
   makeRateLimiter({ windowMs: ONE_HOUR_MS, limit: 5, prefix: "rl:register:" }),
+  validateBody(["email", "password"]),
   registerUserController.registerUser,
 );
 
