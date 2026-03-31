@@ -1,9 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
-import createApp from '../../../src/setup/app.js';
 import client from '../../../src/infrastructure/database/client.js';
-
-const app = createApp();
+import app from '../setup.js';
 
 describe('POST /api/auth/register', () => {
   const TEST_EMAIL = 'register-endpoint-test@example.com';
