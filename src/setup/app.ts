@@ -13,15 +13,18 @@ export default function createApp(): Express {
   app.use(express.json());
   app.use(cookieParser());
 
-  // Incoming request logging
-  app.use(PinoHttp({
-    logger,
-    customLogLevel: (req, res, next) => {
-      if (res.statusCode >= 500) return "error";  // Server errors
-      if (res.statusCode >= 400) return "warn";   // Client errors
-      return "info";                              // Everything else (2xx, 3xx)
-    }
-  }));
+  // Incoming request and outgoing response logging
+  app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'test') return next();
+    return PinoHttp({
+      logger,
+      customLogLevel: (req, res, next) => {
+        if (res.statusCode >= 500) return "error";  // Server errors
+        if (res.statusCode >= 400) return "warn";   // Client errors
+        return "info";                              // Everything else (2xx, 3xx)
+      }
+    })
+  });
 
   app.get('/favicon.ico', (_req, res) => res.status(204).end());
 
