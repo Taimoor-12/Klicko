@@ -91,4 +91,17 @@ describe('POST /api/auth/register', () => {
     
     expect(response.status).toBe(400);
   });
+
+  it('sets authToken cookie on successful registration', async() => {
+    const response = await request(app)
+      .post('/api/auth/register')
+      .send(({
+        email: TEST_EMAIL,
+        password: 'Password123',
+        name: 'Test'
+      }));
+
+    expect(response.headers['set-cookie']).toBeDefined();
+    expect(response.headers['set-cookie'][0]).toContain('authToken');
+  });
 });
