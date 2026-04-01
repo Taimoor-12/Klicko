@@ -16,14 +16,14 @@ export default function createApp(): Express {
   // Incoming request and outgoing response logging
   app.use((req, res, next) => {
     if (process.env.NODE_ENV === 'test') return next();
-    return PinoHttp({
+    PinoHttp({
       logger,
       customLogLevel: (req, res, next) => {
         if (res.statusCode >= 500) return "error";  // Server errors
         if (res.statusCode >= 400) return "warn";   // Client errors
         return "info";                              // Everything else (2xx, 3xx)
       }
-    })
+    })(req, res, next);
   });
 
   app.get('/favicon.ico', (_req, res) => res.status(204).end());
