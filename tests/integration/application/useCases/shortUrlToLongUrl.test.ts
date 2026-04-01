@@ -2,7 +2,7 @@ import { describe, expect, it, beforeEach, afterEach } from "vitest";
 import RegisterUseCase from '../../../../src/application/useCases/registerUser/UseCase.js';
 import LoginUseCase from '../../../../src/application/useCases/loginUser/UseCase.js';
 import LongUrlToShortUrlUseCase from '../../../../src/application/useCases/longUrlToShortUrl/UseCase.js';
-import ShortUrlToLongUrlUseCase from '../../../../src/application/useCases/ShortUrlToLongUrl/UseCase.js';
+import ShortUrlToLongUrlUseCase from '../../../../src/application/useCases/shortUrlToLongUrl/UseCase.js';
 import dbClient from '../../../../src/infrastructure/database/client.js';
 import UserRepository from '../../../../src/infrastructure/database/implementations/UserRepository.js';
 import HashPasswordService from '../../../../src/infrastructure/security/HashPasswordService.js';
