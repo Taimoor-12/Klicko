@@ -42,8 +42,10 @@ describe('short url to long url use case', () => {
   const TEST_EMAIL = 'short-url-to-long-test@example.com';
 
   beforeEach(async () => {
-    await dbClient.$queryRaw`TRUNCATE TABLE "Link" RESTART IDENTITY`;
-    await dbClient.$queryRaw`ALTER SEQUENCE link_sequence RESTART WITH 0`;
+    const user = await dbClient.user.findUnique({ where: { email: TEST_EMAIL } });
+    if (user) {
+      await dbClient.link.deleteMany({ where: { userId: user.id } });
+    }
 
     await dbClient.user.deleteMany({
       where : { email: { in: [TEST_EMAIL] }}
@@ -51,8 +53,10 @@ describe('short url to long url use case', () => {
   });
 
   afterEach(async () => {
-    await dbClient.$queryRaw`TRUNCATE TABLE "Link" RESTART IDENTITY`;
-    await dbClient.$queryRaw`ALTER SEQUENCE link_sequence RESTART WITH 0`;
+    const user = await dbClient.user.findUnique({ where: { email: TEST_EMAIL } });
+    if (user) {
+      await dbClient.link.deleteMany({ where: { userId: user.id } });
+    }
 
     await dbClient.user.deleteMany({
       where : { email: { in: [TEST_EMAIL] }}

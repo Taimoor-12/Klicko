@@ -9,8 +9,10 @@ describe('POST /api/urls/shorten', () => {
   let agent: TestAgent; 
 
   beforeEach(async () => {
-    await client.$queryRaw`TRUNCATE TABLE "Link" RESTART IDENTITY`;
-    await client.$queryRaw`ALTER SEQUENCE link_sequence RESTART WITH 0`;
+    const user = await client.user.findUnique({ where: { email: TEST_EMAIL } });
+    if (user) {
+      await client.link.deleteMany({ where: { userId: user.id } });
+    }
 
     await client.user.deleteMany({
       where : { email: { in: [TEST_EMAIL] }}
@@ -32,8 +34,10 @@ describe('POST /api/urls/shorten', () => {
   });
 
   afterEach(async () => {
-    await client.$queryRaw`TRUNCATE TABLE "Link" RESTART IDENTITY`;
-    await client.$queryRaw`ALTER SEQUENCE link_sequence RESTART WITH 0`;
+    const user = await client.user.findUnique({ where: { email: TEST_EMAIL } });
+    if (user) {
+      await client.link.deleteMany({ where: { userId: user.id } });
+    }
 
     await client.user.deleteMany({
       where : { email: { in: [TEST_EMAIL] }}
