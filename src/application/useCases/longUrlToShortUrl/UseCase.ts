@@ -4,7 +4,7 @@ import type { ILinkSequenceRepository } from "../../../domain/entities/link/repo
 import LongUrl from "../../../domain/entities/link/valueObjects/LongUrl.js";
 import ShortCode from "../../../domain/entities/link/valueObjects/ShortCode.js";
 import type RequestDTO from "./RequestDTO.js";
-import ResponesDTO from "./ResponseDTO.js";
+import ResponseDTO from "./ResponseDTO.js";
 
 
 class UseCase {
@@ -40,7 +40,7 @@ class UseCase {
       userId: dto.userId,
     }));
 
-    return new ResponesDTO({ 
+    return new ResponseDTO({ 
       shortUrl: `${this.baseUrl}/${linkData.shortCode}` 
     });
   }

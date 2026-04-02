@@ -1,4 +1,4 @@
-class ResponesDTO {
+class ResponseDTO {
   longUrl: string;
 
   constructor({ longUrl } : { longUrl: string }) {
@@ -6,4 +6,4 @@ class ResponesDTO {
   }
 }
 
-export default ResponesDTO;
+export default ResponseDTO;

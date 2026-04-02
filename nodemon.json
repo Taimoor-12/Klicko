@@ -1,0 +1,5 @@
+{
+  "ignore": ["dist/", "tests/"],
+  "watch": ["dist/dev-bootstrap.js"],
+  "ext": "js,mjs,cjs,json"
+}
