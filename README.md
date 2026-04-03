@@ -1,4 +1,4 @@
-# Klick - URL Shortener Backend
+# Klicko - URL Shortener Backend
 
 A **scalable, production-style URL shortener backend** built with Node.js, TypeScript, PostgreSQL, Redis, and BullMQ.  
 This project demonstrates **high-performance backend design**, **clean architecture principles**, and **eventual consistency handling** for analytics.
