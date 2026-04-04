@@ -7,7 +7,7 @@
     "test": "vitest",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"tsc --watch\" \"nodemon dist/dev-bootstrap.js\"",
+    "dev": "concurrently \"tsc --watch\" \"nodemon dist/server.js\"",
     "prisma": "prisma --config src/prisma.config.ts",
     "migrate": "npm run prisma -- migrate dev",
     "migrate-reset": "npm run prisma -- migrate reset",
