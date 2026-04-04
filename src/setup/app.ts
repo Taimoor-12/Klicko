@@ -18,7 +18,7 @@ export default function createApp(): Express {
     if (process.env.NODE_ENV === 'test') return next();
     PinoHttp({
       logger,
-      customLogLevel: (req, res, next) => {
+      customLogLevel: (req, res, error) => {
         if (res.statusCode >= 500) return "error";  // Server errors
         if (res.statusCode >= 400) return "warn";   // Client errors
         return "info";                              // Everything else (2xx, 3xx)
