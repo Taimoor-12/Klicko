@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { ipKeyGenerator, rateLimit } from "express-rate-limit";
 import { RedisStore } from "rate-limit-redis";
 import RedisClient from "../../memory-store/client.js";
-import type { AuthenticatedRequest } from "../../http/AuthenticatedRequest";
+import type { AuthenticatedRequest } from "../../http/AuthenticatedRequest.js";
 
 type KeyType = 'ip' | 'userId' | 'email';
 

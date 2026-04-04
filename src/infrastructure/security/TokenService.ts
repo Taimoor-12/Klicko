@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import type { ITokenService, TokenPayload } from '../../application/interfaces/ITokenService';
+import type { ITokenService, TokenPayload } from '../../application/interfaces/ITokenService.js';
 
 class TokenService implements ITokenService {
   private readonly secretKey: string;
