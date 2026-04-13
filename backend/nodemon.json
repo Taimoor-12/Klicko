@@ -1,0 +1,5 @@
+{
+  "ignore": ["dist/", "tests/"],
+  "watch": ["dist/server.js"],
+  "ext": "js,mjs,cjs,json"
+}
