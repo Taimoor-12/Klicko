@@ -1,5 +1,6 @@
 import express from 'express';
 import PinoHttp from 'pino-http';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import logger from '../shared/logger.js';
 import type { Request, Response, NextFunction, Express } from 'express';
@@ -10,6 +11,7 @@ import redirectRoute from '../infrastructure/http/routes/redirectRoute.js';
 
 export default function createApp(): Express {
   const app = express();
+  app.use(cors());
   app.use(express.json());
   app.use(cookieParser());
 
