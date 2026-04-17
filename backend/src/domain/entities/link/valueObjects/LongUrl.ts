@@ -4,10 +4,11 @@ import InvalidProtocolError from "../errors/InvalidProtocolError.js";
 class LongUrl {
   readonly value: string;
 
-  constructor({ value } : { value : string }) {
-    if (!LongUrl.isValidUrl(value)) throw new InvalidLongUrl();
+  constructor({ value }: { value: string }) {
+    const normalizedUrl = LongUrl.normalize(value);
+    if (!LongUrl.isValidUrl(normalizedUrl)) throw new InvalidLongUrl();
 
-    const url = new URL(value);
+    const url = new URL(normalizedUrl);
 
     if (!LongUrl.isValidProtocol(url)) throw new InvalidProtocolError();
 
@@ -19,7 +20,19 @@ class LongUrl {
   }
 
   private static isValidProtocol(url: URL) {
-    return url.protocol === 'http:' || url.protocol === 'https:';
+    return url.protocol === "http:" || url.protocol === "https:";
+  }
+
+  private static normalize(value: string): string {
+    let url = value.trim();
+
+    const hasProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(url);
+
+    if (!hasProtocol) {
+      url = `https://${url}`;
+    }
+
+    return url;
   }
 }
 
