@@ -12,7 +12,7 @@ export default function Home() {
 
   const handleShorten = async () => {
     const body = { longUrl: url };
-    const res = await fetch('https://klicko-production.up.railway.app/api/urls/shorten', {
+    const res = await fetch('http://localhost:3000/api/urls/shorten_public', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,6 +20,7 @@ export default function Home() {
       body: JSON.stringify(body),
     });
     const data = await res.json();
+    console.log(data);
   };
 
   return (
