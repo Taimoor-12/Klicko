@@ -9,6 +9,7 @@ export default function Home() {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
 
   const handleShorten = async () => {
     const body = { longUrl: url };
@@ -20,7 +21,13 @@ export default function Home() {
       body: JSON.stringify(body),
     });
     const data = await res.json();
-    console.log(data);
+    if (res.status === 201) {
+      setShortUrl(data.shortUrl);
+      if (errMessage) setErrMessage("");
+    } else {
+      setErrMessage(data.message);
+      if(shortUrl) setShortUrl("");
+    }
   };
 
   return (
@@ -59,8 +66,9 @@ export default function Home() {
             />
             <Button className="cursor-pointer" onClick={handleShorten}>Shorten</Button>
           </div>
-
+          
           {shortUrl && <p className="mt-12">{shortUrl}</p>}
+          {errMessage && <p className="mt-12 text-red">{errMessage}</p>}
         </section>
       </main>
     </>
