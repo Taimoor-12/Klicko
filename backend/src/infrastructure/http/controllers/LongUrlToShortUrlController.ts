@@ -1,4 +1,4 @@
-import type { NextFunction, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import prisma from "../../database/client.js";
 import LinkRepository from "../../database/implementations/LinkRepository.js";
 import LinkSequenceRepository from "../../database/implementations/LinkSequenceRepository.js";
@@ -15,12 +15,12 @@ export default function makeLongUrlToShortUrlController() {
   const baseUrl = `${process.env.APP_BASE_URL}`;
   const longUrltoShortUrlUseCase = new LongUrlToShortUseCase({ linkRepository, linkSequenceRepository, baseUrl });
 
-  async function convertLongUrlToShort(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  async function convertLongUrlToShort(req: Request | AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const { longUrl } = req.body;
 
       const dto = new RequestDTO({
-        userId: req.user.userId,
+        userId: req.user ? req.user.userId : '',
         longUrl: longUrl
       });
 
