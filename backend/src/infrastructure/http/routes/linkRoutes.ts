@@ -19,4 +19,10 @@ router.post(
   requireAuth(longUrlToShortUrlController.convertLongUrlToShort),
 );
 
+router.post(
+  "/shorten_public",
+  validateBody(["longUrl"]),
+  longUrlToShortUrlController.convertLongUrlToShort
+);
+
 export default router;
