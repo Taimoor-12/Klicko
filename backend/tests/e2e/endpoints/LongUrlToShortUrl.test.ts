@@ -6,7 +6,7 @@ import TestAgent from 'supertest/lib/agent.js';
 
 describe('POST /api/urls/shorten', () => {
   const TEST_EMAIL = 'long-to-short-endpoint-test@example.com';
-  let agent: TestAgent; 
+  let agent: TestAgent;
 
   beforeEach(async () => {
     const user = await client.user.findUnique({ where: { email: TEST_EMAIL } });
@@ -15,22 +15,22 @@ describe('POST /api/urls/shorten', () => {
     }
 
     await client.user.deleteMany({
-      where : { email: { in: [TEST_EMAIL] }}
+      where: { email: { in: [TEST_EMAIL] } }
     });
 
     agent = request.agent(app);
-    
+
     await agent.post('/api/auth/register').send({
-        email: TEST_EMAIL,
-        password: 'Password123',
-        name: 'Test'
-      });
-    
-    
+      email: TEST_EMAIL,
+      password: 'Password123',
+      name: 'Test'
+    });
+
+
     await agent.post('/api/auth/login').send({
-        email: TEST_EMAIL,
-        password: 'Password123',
-      });
+      email: TEST_EMAIL,
+      password: 'Password123',
+    });
   });
 
   afterEach(async () => {
@@ -40,36 +40,36 @@ describe('POST /api/urls/shorten', () => {
     }
 
     await client.user.deleteMany({
-      where : { email: { in: [TEST_EMAIL] }}
+      where: { email: { in: [TEST_EMAIL] } }
     })
   });
 
   it('returns 201 with a short url', async () => {
     const longToShortResponse = await agent
-        .post('/api/urls/shorten')
-        .send({ longUrl: 'https://google.com'});
+      .post('/api/urls/shorten')
+      .send({ longUrl: 'https://google.com' });
 
-    
+
     expect(longToShortResponse.status).toBe(201);
     expect(longToShortResponse.body.shortUrl).toBeDefined();
   });
 
   it('returns 400 when provided with invalid long url', async () => {
     const longToShortResponse = await agent
-        .post('/api/urls/shorten')
-        .send({ longUrl: 'ftp://google.com'});
+      .post('/api/urls/shorten')
+      .send({ longUrl: 'ftp://google.com' });
 
-    
+
     expect(longToShortResponse.status).toBe(400);
   });
 
-  it('returns 400 when provided with invalid url protocol', async () => {
+  it('returns 201 when provided with a valid url without protocol mentioned', async () => {
     const longToShortResponse = await agent
-        .post('/api/urls/shorten')
-        .send({ longUrl: 'www.google.com'});
+      .post('/api/urls/shorten')
+      .send({ longUrl: 'www.google.com' });
 
-    
-    expect(longToShortResponse.status).toBe(400);
+
+    expect(longToShortResponse.status).toBe(201);
   });
 
   it('returns 401 to unauthorized users', async () => {
@@ -77,25 +77,25 @@ describe('POST /api/urls/shorten', () => {
       .post('/api/urls/shorten')
       .send({ longUrl: 'https://www.google.com' });
 
-    
+
     expect(longToShortResponse.status).toBe(401);
   });
 
   it('returns 400 when the request body is empty', async () => {
     const longToShortResponse = await agent
-        .post('/api/urls/shorten')
-        .send();
+      .post('/api/urls/shorten')
+      .send();
 
-    
+
     expect(longToShortResponse.status).toBe(400);
   });
 
   it('returns 422 when the required field is missing', async () => {
     const longToShortResponse = await agent
-        .post('/api/urls/shorten')
-        .send({ name: 'Test' });
+      .post('/api/urls/shorten')
+      .send({ name: 'Test' });
 
-    
+
     expect(longToShortResponse.status).toBe(422);
     expect(longToShortResponse.body.details).toBeDefined();
   });
