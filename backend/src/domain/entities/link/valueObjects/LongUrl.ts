@@ -8,7 +8,7 @@ class LongUrl {
     const normalizedUrl = LongUrl.normalize(value);
     if (!LongUrl.isValidUrl(normalizedUrl)) throw new InvalidLongUrl();
 
-    const url = new URL(normalizedUrl);
+    const url = LongUrl.parseUrl(normalizedUrl);
 
     if (!LongUrl.isValidProtocol(url)) throw new InvalidProtocolError();
 
@@ -16,7 +16,24 @@ class LongUrl {
   }
 
   private static isValidUrl(value: string) {
-    return URL.canParse(value);
+    if (!URL.canParse(value)) return false;
+
+    const url = LongUrl.parseUrl(value);
+    const hostname = url.hostname;
+
+    // must have at least one dot in hostname (e.g. google.com)
+    // and TLD must be at least 2 characters
+    const parts = hostname.split('.');
+    if (parts.length < 2) return false;
+
+    const tld = parts[parts.length - 1];
+    if (!tld || tld.length < 2) return false;
+
+    return true;
+  }
+
+  private static parseUrl(value: string) {
+    return new URL(value);
   }
 
   private static isValidProtocol(url: URL) {
