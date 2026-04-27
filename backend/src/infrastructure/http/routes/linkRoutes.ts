@@ -15,14 +15,8 @@ router.post(
   "/shorten",
   authMiddleware,
   validateBody(["longUrl"]),
-  makeRateLimiter({ windowMs: ONE_HOUR_MS, limit: 50, keyType: 'userId', prefix: 'rl:long_url:'}),
+  makeRateLimiter({ windowMs: ONE_HOUR_MS, limit: 50, keyType: 'userId', prefix: 'rl:long_url:' }),
   requireAuth(longUrlToShortUrlController.convertLongUrlToShort),
-);
-
-router.post(
-  "/shorten_public",
-  validateBody(["longUrl"]),
-  longUrlToShortUrlController.convertLongUrlToShort
 );
 
 export default router;

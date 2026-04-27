@@ -4,8 +4,12 @@ import InvalidLongUrl from '../../../../src/domain/entities/link/errors/InvalidL
 import InvalidProtocolError from '../../../../src/domain/entities/link/errors/InvalidProtocolError.js';
 
 describe('LongUrl VO', () => {
-  it('throws on url with no protocol mentioned', () => {
-    expect(() => new LongUrl({ value: 'facebook.com' })).toThrow(InvalidLongUrl);
+  it('accepts valid url with no protocol mentioned', () => {
+    expect(() => new LongUrl({ value: 'facebook.com' })).not.toThrow();
+  });
+
+  it('throws on invalid url', () => {
+    expect(() => new LongUrl({ value: 'facebook' })).toThrow(InvalidLongUrl);
   });
 
   it('throws on invalid protocol (not http or https)', () => {
