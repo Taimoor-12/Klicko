@@ -6,8 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ArrowRight } from 'lucide-react';
+import Link from "next/link";
 
-export default function Home() {
+export default function Page() {
   const [inputUrl, setInputUrl] = useState("");
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
@@ -73,23 +74,25 @@ export default function Home() {
         <nav className="flex justify-between">
           <ul className="list-none">
             <li className="cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out">
-              <Image
-                src="/logo-black.svg"
-                width={168}
-                height={50}
-                alt="logo"
-                className="md:pt-3 w-20 sm:w-22 md:w-27"
-                priority
-              />
+              <Link href="/">
+                <Image
+                  src="/logo-black.svg"
+                  width={168}
+                  height={50}
+                  alt="logo"
+                  className="md:pt-3 w-20 sm:w-22 md:w-27"
+                  priority
+                />
+              </Link>
             </li>
           </ul>
           <ul className="md:pt-2 list-none flex items-center gap-2 sm:gap-4">
             <li><Button variant={"ghost"} className="cursor-pointer 
             text-sm px-4 py-4
             sm:px-10 sm:py-6">Log In</Button></li>
-            <li><Button className="cursor-pointer
+            <li><Link href="/signup"><Button className="cursor-pointer
             text-sm px-4 py-4
-            sm:px-10 sm:py-6">Sign up</Button></li>
+            sm:px-10 sm:py-6">Sign up</Button></Link></li>
           </ul>
         </nav>
       </header>
