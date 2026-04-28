@@ -70,48 +70,52 @@ export default function Home() {
   return (
     <>
       <header>
-        <nav className="flex justify-between px-6 md:px-12 pt-4 md:pt-6">
+        <nav className="flex justify-between">
           <ul className="list-none">
-            <li className="w-32 md:w-[100px] cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out">
+            <li className="cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out">
               <Image
                 src="/logo-black.svg"
                 width={168}
                 height={50}
-                className="w-full h-auto object-contain"
                 alt="logo"
+                className="md:pt-3 w-20 sm:w-22 md:w-27"
                 priority
               />
             </li>
           </ul>
-          <ul className="list-none flex items-center gap-4">
-            <li><Button variant={"ghost"} size={"lg"} className="text-base cursor-pointer">Log In</Button></li>
-            <li><Button size={"xl"} className="text-base cursor-pointer">Sign up</Button></li>
+          <ul className="md:pt-2 list-none flex items-center gap-2 sm:gap-4">
+            <li><Button variant={"ghost"} className="cursor-pointer 
+            text-sm px-4 py-4
+            sm:px-10 sm:py-6">Log In</Button></li>
+            <li><Button className="cursor-pointer
+            text-sm px-4 py-4
+            sm:px-10 sm:py-6">Sign up</Button></li>
           </ul>
         </nav>
       </header>
-      <main className="mt-24">
+      <main className="mt-12 md:mt-24">
         <section>
           <div className="flex flex-col items-center mt-12">
-            <h1 className="text-4xl md:text-6xl font-bold text-balance">Shorten Links, Amplify Reach</h1>
-            <p className="mt-6 text-base md:text-2xl text-center">Klicko turns your long, clunky URLs into clean, shareable links in seconds—making them easier to manage, track, and use across any platform without the usual mess.</p>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center">Shorten Links, Amplify Reach</h1>
+            <p className="mt-2 sm:mt-4 md:mt-6 text-sm sm:text-lg md:text-2xl text-center">Klicko turns your long, clunky URLs into clean, shareable links in seconds—making them easier to manage, track, and use across any platform without the usual mess.</p>
           </div>
 
-          <div className="min-h-72 bg-muted rounded-4xl mt-12 opacity-90">
+          <div className="min-h-72 bg-muted rounded-4xl mt-12 mb-12 opacity-90">
             <Tabs defaultValue="shorten" className="w-full">
               <div className="flex justify-center mt-2">
                 <TabsList>
-                  <TabsTrigger className="cursor-pointer text-sm md:text-base px-6 py-6 rounded-4xl mt-6 border-1 border-black" value="shorten">Short Link</TabsTrigger>
+                  <TabsTrigger className="cursor-pointer text-sm md:text-base px-4 py-4 sm:px-6 sm:py-6 rounded-4xl mt-4 sm:mt-6 border-1 border-black" value="shorten">Short Link</TabsTrigger>
                 </TabsList>
               </div>
 
               <TabsContent value="shorten" className="mx-6 mt-6">
                 <h2 className="text-xl md:text-2xl font-semibold">Shorten a long link</h2>
-                <p className="mt-2 opacity-70 text-xs md:text-sm">No credit card required</p>
+                <p className="mt-2 opacity-70 text-sm md:text-base">No credit card required</p>
 
                 <h3 className="text-md md:text-lg font-semibold mt-15">Paste your long link here</h3>
 
                 <Input
-                  className={`h-14 md:h-12 mt-4 border-black ${error ? 'border-red-500' : ''}`}
+                  className={`h-12 mt-2 border-black text-xs sm:text-base ${error ? 'border-red-500' : ''}`}
                   placeholder="https://example.com/my-long-url"
                   type="text"
                   value={inputUrl}
@@ -120,7 +124,7 @@ export default function Home() {
 
                 {error && <p className="text-red-500 mt-2 text-sm md:text-base">{error}</p>}
 
-                <Button size={"lg"} className="mt-6 min-w-42 min-h-12 cursor-pointer text-lg px-6 mb-10" onClick={handleShorten}>
+                <Button className="mt-6 w-full h-12 md:w-64 cursor-pointer text-base md:text-lg md:px-6 mb-10" onClick={handleShorten}>
                   Get your link for free
                   <ArrowRight />
                 </Button>
