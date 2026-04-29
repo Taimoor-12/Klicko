@@ -6,25 +6,43 @@ type RequestOptions = {
   headers?: Record<string, string>
 };
 
+type ErrorResponse = {
+  message: string;
+  details?: any;
+}
+
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-  const { method = 'GET', body, headers = {} } = options;
+  try {
+    const { method = 'GET', body, headers = {} } = options;
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
-    method,
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+      method,
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      },
+      body: body ? JSON.stringify(body) : undefined
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message ?? 'Something went wrong');
+    if (response.status === 429) {
+      throw new Error('Too many requests. Please try again later.');
+    }
+
+    if (!response.ok) {
+      const error: ErrorResponse = await response.json();
+
+      throw new Error(error.message ?? 'Something went wrong');
+    }
+
+    return response.json();
+  } catch (err) {
+    if (err instanceof TypeError) {
+      throw new Error("Unreachable. Please try again later.");
+    }
+
+    throw err;
   }
-
-  return response.json();
 }
 
 export default request;
