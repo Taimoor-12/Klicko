@@ -8,10 +8,14 @@ import AppError from '../shared/errors/AppError.js';
 import authRoutes from '../infrastructure/http/routes/authRoutes.js';
 import linkRoutes from '../infrastructure/http/routes/linkRoutes.js';
 import redirectRoute from '../infrastructure/http/routes/redirectRoute.js';
+import getEnv from '../shared/utils/getEnv.js';
 
 export default function createApp(): Express {
   const app = express();
-  app.use(cors());
+  app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+  }));
   app.use(express.json());
   app.use(cookieParser());
 
@@ -53,10 +57,10 @@ export default function createApp(): Express {
     const status = err instanceof AppError ? err.statusCode : 500;
     const message = err instanceof AppError ? err.message : 'Internal Server Error';
     const details = err instanceof AppError ? err.details : undefined;
-    const body: { message: string, stack?: string, details?: any} = { message, details };
+    const body: { message: string, stack?: string, details?: any } = { message, details };
 
     if (process.env.NODE_ENV !== 'prod' && err.stack) body.stack = err.stack;
-    
+
     res.status(status).json(body);
   });
 

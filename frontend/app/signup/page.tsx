@@ -1,8 +1,11 @@
-"use client"
+import { SignupForm } from "@/components/signup-form";
+import Image from "next/image";
+import Link from "next/link";
+import { Metadata } from 'next';
 
-import { SignupForm } from "@/components/signup-form"
-import Image from "next/image"
-import Link from "next/link"
+export const metadata: Metadata = {
+  title: 'Sign Up',
+};
 
 export default function SignupPage() {
   return (
