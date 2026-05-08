@@ -56,7 +56,7 @@ export function SignupForm({
 
     try {
       const res = await authApi.register(body);
-      console.log("Response::", res);
+      if (res.user) { }
     } catch (error: any) {
       setError(error.message);
     } finally {
