@@ -8,11 +8,12 @@ import { useState } from "react";
 import { ArrowRight } from 'lucide-react';
 import Link from "next/link";
 import { longUrl } from "@/lib/longUrl";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [inputUrl, setInputUrl] = useState("");
-  const [url, setUrl] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleShorten = async () => {
     const normalized = longUrl.normalize(inputUrl);
@@ -23,7 +24,7 @@ export default function Page() {
       parsedUrl = longUrl.parseUrl(normalized);
       isProtocolValid = longUrl.isValidProtocol(parsedUrl);
       if (isProtocolValid) {
-        setUrl(parsedUrl.toString());
+        router.push(`/signup?longUrl=${encodeURIComponent(parsedUrl.toString())}`);
       } else {
         setError("We'll need a valid URL, like \"super-long-link.com/shorten-it\"");
       }
