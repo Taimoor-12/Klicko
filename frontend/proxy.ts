@@ -6,9 +6,9 @@ export function proxy(request: NextRequest) {
   const isOnDashboard = request.nextUrl.pathname.startsWith('/dashboard');
 
   if (isOnDashboard && !token) {
-    const signupUrl = new URL('/signup', request.url);
-    signupUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
-    return NextResponse.redirect(signupUrl);
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   if (!isOnDashboard && token) {
@@ -19,5 +19,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/signup', '/']
+  matcher: ['/dashboard/:path*', '/signup', '/login', '/']
 }
