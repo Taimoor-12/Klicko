@@ -18,7 +18,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import { authApi } from "@/app/lib/api"
-import { useSearchParams, useRouter, redirect } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
+import Link from "next/link";
 
 export function SignupForm({
   className,
@@ -123,7 +124,7 @@ export function SignupForm({
                 <Button type="submit" disabled={loading} className="cursor-pointer">{loading ? "Creating Account..." : "Create Account"}</Button>
                 {error && <p className="text-red-500">{error}</p>}
                 <FieldDescription className="text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Already have an account? <Link href="/login">Log in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
