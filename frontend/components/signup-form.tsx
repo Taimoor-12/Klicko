@@ -16,8 +16,9 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { useActionState, useState } from "react"
+import { useState } from "react"
 import { authApi } from "@/app/lib/api"
+import { useSearchParams, useRouter, redirect } from "next/navigation"
 
 export function SignupForm({
   className,
@@ -25,6 +26,9 @@ export function SignupForm({
 }: React.ComponentProps<"div">) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -56,7 +60,9 @@ export function SignupForm({
 
     try {
       const res = await authApi.register(body);
-      if (res.user) { }
+      if (res) { 
+        router.push(callbackUrl);
+      }
     } catch (error: any) {
       setError(error.message);
     } finally {
