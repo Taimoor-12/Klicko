@@ -87,9 +87,9 @@ export default function Page() {
             </li>
           </ul>
           <ul className="md:pt-2 list-none flex items-center gap-2 sm:gap-4">
-            <li><Button variant={"ghost"} className="cursor-pointer 
+            <li><Link href="/login"><Button variant={"ghost"} className="cursor-pointer 
             text-sm px-4 py-4
-            sm:px-10 sm:py-6">Log In</Button></li>
+            sm:px-10 sm:py-6">Log In</Button></Link></li>
             <li><Link href="/signup"><Button className="cursor-pointer
             text-sm px-4 py-4
             sm:px-10 sm:py-6">Sign up</Button></Link></li>
