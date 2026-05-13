@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ArrowRight } from 'lucide-react';
 import Link from "next/link";
+import { longUrl } from "@/lib/longUrl";
 
 export default function Page() {
   const [inputUrl, setInputUrl] = useState("");
@@ -14,13 +15,13 @@ export default function Page() {
   const [error, setError] = useState("");
 
   const handleShorten = async () => {
-    const normalized = normalize(inputUrl);
-    let validUrl = isValidUrl(normalized);
+    const normalized = longUrl.normalize(inputUrl);
+    let validUrl = longUrl.isValidUrl(normalized);
     let parsedUrl;
     let isProtocolValid;
     if (validUrl) {
-      parsedUrl = parseUrl(normalized);
-      isProtocolValid = isValidProtocol(parsedUrl);
+      parsedUrl = longUrl.parseUrl(normalized);
+      isProtocolValid = longUrl.isValidProtocol(parsedUrl);
       if (isProtocolValid) {
         setUrl(parsedUrl.toString());
       } else {
@@ -30,43 +31,6 @@ export default function Page() {
       setError("We'll need a valid URL, like \"super-long-link.com/shorten-it\"");
     }
   };
-
-  const normalize = (value: string) => {
-    let url = value.trim();
-
-    const hasProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(url);
-
-    if (!hasProtocol) {
-      url = `https://${url}`;
-    }
-
-    return url;
-  }
-
-  const isValidUrl = (value: string) => {
-    if (!URL.canParse(value)) return false;
-
-    const url = parseUrl(value);
-    const hostname = url.hostname;
-
-    // must have at least one dot in hostname (e.g. google.com)
-    // and TLD must be at least 2 characters
-    const parts = hostname.split('.');
-    if (parts.length < 2) return false;
-
-    const tld = parts[parts.length - 1];
-    if (!tld || tld.length < 2) return false;
-
-    return true;
-  }
-
-  const parseUrl = (value: string) => {
-    return new URL(value);
-  }
-
-  const isValidProtocol = (url: URL) => {
-    return url.protocol === "http:" || url.protocol === "https:";
-  }
 
   return (
     <>

@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { authApi } from "@/app/lib/api"
+import { authApi } from "@/lib/api"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link";
 

@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link";
 import { useState } from "react";
-import { authApi } from "@/app/lib/api";
+import { authApi } from "@/lib/api";
 import { useSearchParams, useRouter } from "next/navigation";
 
 export function LoginForm({
