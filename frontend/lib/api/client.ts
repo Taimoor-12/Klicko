@@ -11,7 +11,12 @@ type ErrorResponse = {
   details?: any;
 }
 
-async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+type ApiResponse<T> = {
+  data: T;
+  status: number;
+}
+
+async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
   try {
     const { method = 'GET', body, headers = {} } = options;
 
@@ -35,7 +40,12 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
       throw new Error(error.message ?? 'Something went wrong');
     }
 
-    return response.json();
+    const data = await response.json();
+
+    return {
+      data,
+      status: response.status
+    };
   } catch (err) {
     if (err instanceof TypeError) {
       throw new Error("Unreachable. Please try again later.");
