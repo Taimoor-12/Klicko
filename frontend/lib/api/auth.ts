@@ -21,4 +21,10 @@ export const authApi = {
 
   check: () =>
     request<{ loggedIn: boolean; user: User }>('/api/auth/me'),
+
+  logout: () =>
+    request<{ message: string }>('/api/auth/logout', {
+      method: 'POST',
+      body: {}
+    }),
 }
