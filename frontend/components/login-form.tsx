@@ -29,7 +29,10 @@ export function LoginForm({
   const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const longUrl = searchParams.get('longUrl') || '';
+  const callbackUrl = longUrl 
+    ? `/dashboard?longUrl=${encodeURIComponent(longUrl)}` 
+    : searchParams.get('callbackUrl') || '/dashboard';
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
       e.preventDefault();

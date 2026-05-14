@@ -29,7 +29,14 @@ export function SignupForm({
   const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const longUrl = searchParams.get('longUrl') || '';
+  const callbackUrl = longUrl 
+    ? `/dashboard?longUrl=${encodeURIComponent(longUrl)}` 
+    : searchParams.get('callbackUrl') || '/dashboard';
+
+  const loginUrl = longUrl
+  ? `/login?longUrl=${encodeURIComponent(longUrl)}`
+  : `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`;
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -124,7 +131,7 @@ export function SignupForm({
                 <Button type="submit" disabled={loading} className="cursor-pointer">{loading ? "Creating Account..." : "Create Account"}</Button>
                 {error && <p className="text-red-500">{error}</p>}
                 <FieldDescription className="text-center">
-                  Already have an account? <Link href="/login">Log in</Link>
+                  Already have an account? <Link href={loginUrl}>Log in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
