@@ -1,7 +1,7 @@
 class ResponseDTO {
   totalClicks: number;
   totalLinks: number;
-  topLink: string;
+  topLink: string | null;
 
   constructor({
     totalClicks,
@@ -10,7 +10,7 @@ class ResponseDTO {
   }: {
     totalClicks: number;
     totalLinks: number;
-    topLink: string;
+    topLink: string | null;
   }) {
     this.totalClicks = totalClicks;
     this.totalLinks = totalLinks;

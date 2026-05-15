@@ -17,7 +17,9 @@ class UseCase {
     return new ResponseDTO({ 
       totalClicks: stats.totalClicks,
       totalLinks: stats.totalLinks,
-      topLink: `${this.baseUrl}/${stats.topLink}` 
+      topLink: stats.topLink 
+          ? `${this.baseUrl}/${stats.topLink}`
+          : null 
     });
   }
 }

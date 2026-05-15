@@ -65,7 +65,7 @@ class UserRepository implements IUserRepository {
     return new UserStats({
       totalClicks: Number(result.totalClicks ?? 0),
       totalLinks: Number(result.totalLinks ?? 0),
-      topLink: result.topLink ?? "",
+      topLink: result.topLink,
     });
   }
 }
