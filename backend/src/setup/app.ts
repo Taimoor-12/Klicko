@@ -7,6 +7,7 @@ import type { Request, Response, NextFunction, Express } from 'express';
 import AppError from '../shared/errors/AppError.js';
 import authRoutes from '../infrastructure/http/routes/authRoutes.js';
 import linkRoutes from '../infrastructure/http/routes/linkRoutes.js';
+import userRoutes from '../infrastructure/http/routes/userRoutes.js';
 import redirectRoute from '../infrastructure/http/routes/redirectRoute.js';
 import getEnv from '../shared/utils/getEnv.js';
 
@@ -36,6 +37,7 @@ export default function createApp(): Express {
 
   app.use('/api/auth', authRoutes);
   app.use('/api/urls', linkRoutes);
+  app.use('/api/me', userRoutes);
   app.use('/', redirectRoute);
 
   // centralized error handler
