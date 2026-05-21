@@ -20,6 +20,7 @@ export const longUrl = {
     // must have at least one dot in hostname (e.g. google.com)
     // and TLD must be at least 2 characters
     const parts = hostname.split(".");
+    if (parts[0] === 'www' && parts.length < 3) return false;
     if (parts.length < 2) return false;
 
     const tld = parts[parts.length - 1];
