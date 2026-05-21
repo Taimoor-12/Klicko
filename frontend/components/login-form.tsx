@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { authApi } from "@/lib/api";
 import { useSearchParams, useRouter } from "next/navigation";
+import { createLinkIfNeeded } from "@/lib/actions/link";
 
 export function LoginForm({
   className,
@@ -30,9 +31,7 @@ export function LoginForm({
   const searchParams = useSearchParams();
   const router = useRouter();
   const longUrl = searchParams.get('longUrl') || '';
-  const callbackUrl = longUrl 
-    ? `/dashboard?longUrl=${encodeURIComponent(longUrl)}` 
-    : searchParams.get('callbackUrl') || '/dashboard';
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
       e.preventDefault();
@@ -54,7 +53,8 @@ export function LoginForm({
   
       try {
         const res = await authApi.login(data);
-        if (res) { 
+        if (res) {
+          await createLinkIfNeeded(longUrl); 
           router.push(callbackUrl);
         }
       } catch (error: any) {

@@ -20,6 +20,7 @@ import { useState } from "react"
 import { authApi } from "@/lib/api"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link";
+import { createLinkIfNeeded } from "@/lib/actions/link";
 
 export function SignupForm({
   className,
@@ -30,9 +31,8 @@ export function SignupForm({
   const searchParams = useSearchParams();
   const router = useRouter();
   const longUrl = searchParams.get('longUrl') || '';
-  const callbackUrl = longUrl 
-    ? `/dashboard?longUrl=${encodeURIComponent(longUrl)}` 
-    : searchParams.get('callbackUrl') || '/dashboard';
+
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 
   const loginUrl = longUrl
   ? `/login?longUrl=${encodeURIComponent(longUrl)}`
@@ -69,6 +69,7 @@ export function SignupForm({
     try {
       const res = await authApi.register(body);
       if (res) { 
+        await createLinkIfNeeded(longUrl);
         router.push(callbackUrl);
       }
     } catch (error: any) {
