@@ -3,6 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { userApi } from "@/lib/api";
 import { cookies } from "next/headers";
+import { LongUrlInputWrapper } from "@/components/dashboard/long-url-input-wrapper";
 
 export default async function Page() {
   const cookieStore = await cookies();
@@ -54,6 +55,8 @@ export default async function Page() {
             }
           />
         </div>
+        
+        <LongUrlInputWrapper />
       </main>
     </>
   );
