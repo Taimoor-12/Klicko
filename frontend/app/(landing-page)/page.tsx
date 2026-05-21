@@ -18,25 +18,23 @@ export default function Page() {
   const handleShorten = async () => {
     const normalized = longUrl.normalize(inputUrl);
     let validUrl = longUrl.isValidUrl(normalized);
-    let parsedUrl;
-    let isProtocolValid;
-    if (validUrl) {
-      parsedUrl = longUrl.parseUrl(normalized);
-      isProtocolValid = longUrl.isValidProtocol(parsedUrl);
-      if (isProtocolValid) {
-        router.push(
-          `/signup?longUrl=${encodeURIComponent(parsedUrl.toString())}`,
-        );
-      } else {
-        setError(
-          'We\'ll need a valid URL, like "super-long-link.com/shorten-it"',
-        );
-      }
-    } else {
+
+    if (!validUrl) {
       setError(
         'We\'ll need a valid URL, like "super-long-link.com/shorten-it"',
       );
+      return;
     }
+
+    const parsedUrl = longUrl.parseUrl(normalized);
+    if (!longUrl.isValidProtocol(parsedUrl)) {
+      setError(
+        'We\'ll need a valid URL, like "super-long-link.com/shorten-it"',
+      );
+      return;
+    }
+
+    router.push(`/signup?longUrl=${encodeURIComponent(parsedUrl.toString())}`);
   };
 
   return (
