@@ -5,31 +5,47 @@ import { Button } from "@/components//ui/button";
 import { useState } from "react";
 import { longUrl } from "@/lib/longUrl";
 import { linkApi } from "@/lib/api";
-import { ArrowRight } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function LongUrlInputWrapper() {
+  const router = useRouter();
   const [inputUrl, setInputUrl] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleShorten = async () => {
     const normalized = longUrl.normalize(inputUrl);
-    let validUrl = longUrl.isValidUrl(normalized);
-    let parsedUrl;
-    let isProtocolValid;
-    if (validUrl) {
-      parsedUrl = longUrl.parseUrl(normalized);
-      isProtocolValid = longUrl.isValidProtocol(parsedUrl);
-      if (isProtocolValid) {
-        await linkApi.longToShortUrl({ longUrl: inputUrl });
-      } else {
-        setError(
-          'We\'ll need a valid URL, like "super-long-link.com/shorten-it"',
-        );
-      }
-    } else {
+    const validUrl = longUrl.isValidUrl(normalized);
+
+    if (!validUrl) {
       setError(
         'We\'ll need a valid URL, like "super-long-link.com/shorten-it"',
       );
+      return;
+    }
+
+    const parsedUrl = longUrl.parseUrl(normalized);
+    if (!longUrl.isValidProtocol(parsedUrl)) {
+      setError(
+        'We\'ll need a valid URL, like "super-long-link.com/shorten-it"',
+      );
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+      await linkApi.longToShortUrl({ longUrl: normalized });
+      setInputUrl(""); // clear input
+      router.refresh(); // ← re-fetches server component data
+      toast.success("Link shortened!");
+    } catch (err: any) {
+      toast.error("Failed to shorten link");
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,8 +60,13 @@ export function LongUrlInputWrapper() {
             className="mt-2 h-12 w-28 md:w-32 cursor-pointer text-base md:text-lg md:px-6"
             onClick={() => handleShorten()}
           >
-            Shorten
-            <ArrowRight />
+            {loading ? (
+              <Loader2 className="animate-spin ml-2 h-4 w-4" />
+            ) : (
+              <>
+                Shorten <ArrowRight />
+              </>
+            )}
           </Button>
         }
         className="flex gap-3"
