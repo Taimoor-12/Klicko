@@ -14,9 +14,12 @@ export default async function Page() {
     throw new Error("Unauthorized");
   }
 
-  const res = await userApi.getStats(authToken);
+  const [statsRes, linksRes] = await Promise.all([
+    userApi.getStats(authToken),
+    userApi.getLinks(authToken)
+  ])
 
-  const stats = res.data;
+  const stats = statsRes.data;
 
   return (
     <>
@@ -59,7 +62,7 @@ export default async function Page() {
         <LongUrlInputWrapper />
         <div className="mt-16">
             <h3 className="text-lg md:text-2xl font-bold mb-6">Your Links</h3>
-            <LinksTable />
+            <LinksTable links={linksRes.data}/>
         </div>
       </main>
     </>

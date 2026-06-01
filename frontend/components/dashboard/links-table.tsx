@@ -11,128 +11,14 @@ import {
 import { Clipboard, Check } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import type { UserLinks } from "@/lib/api";
 
-export function LinksTable() {
-  const links = [
-    {
-      id: "1",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "2",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "3",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "4",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "5",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "6",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "7",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "8",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "9",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "10",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "11",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "12",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-    {
-      id: "13",
-      shortUrl: "http://localhost:4000/cO",
-      longUrl:
-        "https://google.com/feuiawjfeioajofieawjoafejaojfoiawjefeaoejfaijafeofaepokfeaopkfapokfopewkfopakpofakopafwkapoewfkfeapokfaeopkfaopkefpaokaewfopkaewf",
-      clicks: 4,
-      Created: "22 July",
-      Actions: "Idk",
-    },
-  ];
+type LinksTableProps = {
+  links: UserLinks[];
+}
 
+
+export function LinksTable({ links }: LinksTableProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = async (id: string, shortUrl: string) => {
@@ -201,7 +87,7 @@ export function LinksTable() {
             </TableCell>
             <TableCell className="max-w-xs truncate hidden md:table-cell font-mono">{link.longUrl}</TableCell>
             <TableCell>{link.clicks}</TableCell>
-            <TableCell>{link.Created}</TableCell>
+            <TableCell>{link.createdAt}</TableCell>
           </TableRow>
         ))}
       </TableBody>
