@@ -4,6 +4,7 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { userApi } from "@/lib/api";
 import { cookies } from "next/headers";
 import { LongUrlInputWrapper } from "@/components/dashboard/long-url-input-wrapper";
+import { LinksTable } from "@/components/dashboard/links-table";
 
 export default async function Page() {
   const cookieStore = await cookies();
@@ -55,8 +56,11 @@ export default async function Page() {
             }
           />
         </div>
-        
         <LongUrlInputWrapper />
+        <div className="mt-16">
+            <h3 className="text-lg md:text-2xl font-bold mb-6">Your Links</h3>
+            <LinksTable />
+        </div>
       </main>
     </>
   );
