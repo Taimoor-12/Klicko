@@ -1,5 +1,5 @@
 import type { IUserRepository } from "../../../../domain/entities/user/repositories/IUserRepository.js";
-import type RequestDTO from "../RequestDTO.js";
+import type RequestDTO from "./RequestDTO.js";
 import ResponseDTO from "./ResponseDTO.js";
 
 class UseCase {
@@ -12,7 +12,13 @@ class UseCase {
   }
 
   async execute(dto: RequestDTO) {
-    const links = await this.userRepository.getLinks(dto.userId);
+    const linksAndCount = await this.userRepository.getLinks(
+      dto.userId,
+      dto.page,
+      dto.limit
+    );
+
+    const { links, total } = linksAndCount;
 
     const responseLinks = links.map(
       (link) =>
@@ -25,7 +31,10 @@ class UseCase {
         }),
     );
 
-    return responseLinks;
+    return {
+      responseLinks,
+      total
+    };
   }
 
   private formatDate(date: Date): string {

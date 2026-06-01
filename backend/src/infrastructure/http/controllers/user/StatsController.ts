@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import prisma from "../../../database/client.js";
 import UserRepository from "../../../database/implementations/UserRepository.js";
 import StatsUseCase from "../../../../application/useCases/user/userStats/UseCase.js";
-import RequestDTO from "../../../../application/useCases/user/RequestDTO.js";
+import RequestDTO from "../../../../application/useCases/user/userStats/RequestDTO.js";
 import type { AuthenticatedRequest } from "../../AuthenticatedRequest.js";
 
 export default function makeStatsController() {

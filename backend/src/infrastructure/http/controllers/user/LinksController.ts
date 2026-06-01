@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import prisma from "../../../database/client.js";
 import UserRepository from "../../../database/implementations/UserRepository.js";
 import AllLinksUseCase from "../../../../application/useCases/user/userLinks/UseCase.js";
-import RequestDTO from "../../../../application/useCases/user/RequestDTO.js";
+import RequestDTO from "../../../../application/useCases/user/userLinks/RequestDTO.js";
 import type { AuthenticatedRequest } from "../../AuthenticatedRequest.js";
 
 export default function makeLinksController() {
@@ -10,11 +10,18 @@ export default function makeLinksController() {
   const baseUrl = `${process.env.APP_BASE_URL}`;
   const allLinksUseCase = new AllLinksUseCase(userRepository, baseUrl);
 
-  async function linksController(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  async function linksController(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
       const { userId } = req.user;
 
-      const dto = new RequestDTO(userId);
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const dto = new RequestDTO({ userId, page, limit });
 
       const result = await allLinksUseCase.execute(dto);
       res.status(201).json(result);
@@ -23,5 +30,5 @@ export default function makeLinksController() {
     }
   }
 
-  return { linksController }
+  return { linksController };
 }
