@@ -1,5 +1,5 @@
-import type { IUserRepository } from "../../../domain/entities/user/repositories/IUserRepository.js";
-import type RequestDTO from "./RequestDTO.js";
+import type { IUserRepository } from "../../../../domain/entities/user/repositories/IUserRepository.js";
+import type RequestDTO from "../RequestDTO.js";
 import ResponseDTO from "./ResponseDTO.js";
 
 class UseCase {

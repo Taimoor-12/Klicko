@@ -1,4 +1,5 @@
-import UserStats from "../../../application/useCases/userStats/ResponseDTO.js";
+import UserStats from "../../../application/useCases/user/userStats/ResponseDTO.js";
+import type Link from "../../../domain/entities/link/Link.js";
 import type { IUserRepository } from "../../../domain/entities/user/repositories/IUserRepository.js";
 import User from "../../../domain/entities/user/User.js";
 import type { PrismaClient } from "../../../prisma/generated/client.js";
@@ -67,6 +68,11 @@ class UserRepository implements IUserRepository {
       totalLinks: Number(result.totalLinks ?? 0),
       topLink: result.topLink,
     });
+  }
+
+  async getLinks(userId: string): Promise<Link[]> {
+    const links = await this.dbClient.link.findMany({ where: { userId }});
+    return links;
   }
 }
 
