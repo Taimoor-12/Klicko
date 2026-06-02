@@ -16,8 +16,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { useActionState, useState } from "react"
-import { authApi } from "@/app/lib/api"
+import { useState } from "react"
+import { authApi } from "@/lib/api"
+import { useSearchParams, useRouter } from "next/navigation"
+import Link from "next/link";
+import { createLinkIfNeeded } from "@/lib/actions/link";
 
 export function SignupForm({
   className,
@@ -25,6 +28,15 @@ export function SignupForm({
 }: React.ComponentProps<"div">) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const longUrl = searchParams.get('longUrl') || '';
+
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+
+  const loginUrl = longUrl
+  ? `/login?longUrl=${encodeURIComponent(longUrl)}`
+  : `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`;
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -56,7 +68,10 @@ export function SignupForm({
 
     try {
       const res = await authApi.register(body);
-      if (res.user) { }
+      if (res) { 
+        await createLinkIfNeeded(longUrl);
+        router.push(callbackUrl);
+      }
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -117,7 +132,7 @@ export function SignupForm({
                 <Button type="submit" disabled={loading} className="cursor-pointer">{loading ? "Creating Account..." : "Create Account"}</Button>
                 {error && <p className="text-red-500">{error}</p>}
                 <FieldDescription className="text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Already have an account? <Link href={loginUrl}>Log in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

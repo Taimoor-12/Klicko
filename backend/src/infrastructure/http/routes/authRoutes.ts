@@ -47,4 +47,9 @@ router.get("/check", authMiddleware, (req: Request, res: Response) => {
   });
 });
 
+router.post('/logout', (_, res) => {
+  res.clearCookie('authToken');
+  res.status(200).json({ message: 'Logged out' });
+});
+
 export default router;

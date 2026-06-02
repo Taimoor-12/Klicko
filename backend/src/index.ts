@@ -8,7 +8,7 @@ async function main() {
   const app = createApp();
 
   app.listen(PORT, () => {
-    console.log(`Server running on ${BASE_URL}:${PORT}`)
+    console.log(`Server running on ${BASE_URL}`)
   });
 }
 
