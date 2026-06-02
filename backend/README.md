@@ -21,6 +21,10 @@ This project demonstrates **high-performance backend design**, **clean architect
   - Supports **multiple Node.js instances** with a shared queue for consistent background job processing.
 - **Clean Architecture**
   - Domain and application logic are **isolated from infrastructure** (database, cache, message queue), making the backend modular and maintainable.
+- **Rate limiting**
+  - Rate limiting per IP and `userId`
+- **Comprehensive test suite**
+  - Contains unit, integration and E2E testing
 
 ---
 
