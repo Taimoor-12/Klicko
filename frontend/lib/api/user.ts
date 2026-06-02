@@ -14,6 +14,11 @@ export type UserLinks = {
   createdAt: string;
 }
 
+export type GetLinksResponse = {
+  links: UserLinks[];
+  total: number;
+}
+
 export const userApi = {
   getStats: (authToken: string) =>
     request<UserStats>('/api/me/stats', {
@@ -23,7 +28,7 @@ export const userApi = {
     }),
   
   getLinks: (authToken: string) =>
-    request<UserLinks[]>('/api/me/links', {
+    request<GetLinksResponse>('/api/me/links', {
       headers: {
         Cookie: `authToken=${authToken}`
       }
