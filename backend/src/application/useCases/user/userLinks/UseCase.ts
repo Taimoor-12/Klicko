@@ -32,7 +32,7 @@ class UseCase {
     );
 
     return {
-      responseLinks,
+      links: responseLinks,
       total
     };
   }
