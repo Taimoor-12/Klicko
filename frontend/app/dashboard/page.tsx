@@ -30,7 +30,6 @@ export default async function Page({
 
   const stats = statsRes.data;
   const { links, totalPages } = linksRes.data;
-  console.log("TotalPages Dashboard", totalPages);
 
   return (
     <>

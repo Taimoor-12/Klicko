@@ -19,7 +19,6 @@ export function PaginationDashboard({
 
   const getPageNumbers = () => {
     const pages = [];
-    console.log("total pages", totalPages);
     if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -33,8 +32,6 @@ export function PaginationDashboard({
         pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
       }
     }
-
-    console.log("PAGES", pages);
 
     return pages;
   };
