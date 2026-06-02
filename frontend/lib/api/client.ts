@@ -1,9 +1,10 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 type RequestOptions = {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
-  body?: unknown,
-  headers?: Record<string, string>
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+  body?: unknown;
+  headers?: Record<string, string>;
+  queryParams?: Record<string, string | number>;
 };
 
 type ErrorResponse = {
@@ -18,9 +19,24 @@ type ApiResponse<T> = {
 
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
   try {
-    const { method = 'GET', body, headers = {} } = options;
+    const { 
+      method = 'GET', 
+      body,
+      headers = {},
+      queryParams = {}
+    } = options;
 
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
+    const searchParams = new URLSearchParams();
+
+    Object.entries(queryParams).forEach(([key, value]) => {
+      searchParams.append(key, String(value));
+    })
+
+    const url = `${BASE_URL}${endpoint}${
+      searchParams.toString() ? `?${searchParams.toString()}` : ""
+    }`;
+
+    const response = await fetch(url, {
       method,
       credentials: 'include',
       headers: {
