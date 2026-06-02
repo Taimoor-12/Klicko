@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/dashboard/navbar";
 import { ExternalLink } from "lucide-react";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { userApi, UserLinks } from "@/lib/api";
+import { userApi } from "@/lib/api";
 import { cookies } from "next/headers";
 import { LongUrlInputWrapper } from "@/components/dashboard/long-url-input-wrapper";
 import { LinksTable } from "@/components/dashboard/links-table";
