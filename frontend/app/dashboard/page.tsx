@@ -7,7 +7,13 @@ import { LongUrlInputWrapper } from "@/components/dashboard/long-url-input-wrapp
 import { LinksTable } from "@/components/dashboard/links-table";
 import { PaginationDashboard } from "@/components/dashboard/pagination";
 
-export default async function Page() {
+export default async function Page({ 
+  searchParams 
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const params = await searchParams;
+
   const cookieStore = await cookies();
   const authToken = cookieStore.get("authToken")?.value;
 
@@ -15,13 +21,16 @@ export default async function Page() {
     throw new Error("Unauthorized");
   }
 
+  const page = Number(params.page) || 1;
+
   const [statsRes, linksRes] = await Promise.all([
     userApi.getStats(authToken),
-    userApi.getLinks(authToken, 1, 10)
+    userApi.getLinks(authToken, page, 10)
   ])
 
   const stats = statsRes.data;
-  const links = linksRes.data.links;
+  const { links, totalPages } = linksRes.data;
+  console.log("TotalPages Dashboard", totalPages);
 
   return (
     <>
@@ -66,8 +75,8 @@ export default async function Page() {
             <h3 className="text-lg md:text-2xl font-bold mb-6">Your Links</h3>
             <LinksTable links={links}/>
         </div>
-        <div className="mt-8">
-            <PaginationDashboard />
+        <div className="mt-8 mb-8">
+            <PaginationDashboard currentPage={page} totalPages={totalPages}/>
         </div>
       </main>
     </>
