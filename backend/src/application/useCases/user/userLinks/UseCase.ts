@@ -20,6 +20,8 @@ class UseCase {
 
     const { links, total } = linksAndCount;
 
+    const totalPages = Math.ceil(total / dto.limit);
+
     const responseLinks = links.map(
       (link) =>
         new ResponseDTO({
@@ -33,7 +35,7 @@ class UseCase {
 
     return {
       links: responseLinks,
-      total
+      totalPages
     };
   }
 
