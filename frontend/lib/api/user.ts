@@ -27,10 +27,14 @@ export const userApi = {
       }
     }),
   
-  getLinks: (authToken: string) =>
+  getLinks: (authToken: string, page: number, limit: number) =>
     request<GetLinksResponse>('/api/me/links', {
       headers: {
         Cookie: `authToken=${authToken}`
+      },
+      queryParams: {
+        page,
+        limit
       }
     })
 }
