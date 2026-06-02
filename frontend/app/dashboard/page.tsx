@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/dashboard/navbar";
 import { ExternalLink } from "lucide-react";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { userApi } from "@/lib/api";
+import { userApi, UserLinks } from "@/lib/api";
 import { cookies } from "next/headers";
 import { LongUrlInputWrapper } from "@/components/dashboard/long-url-input-wrapper";
 import { LinksTable } from "@/components/dashboard/links-table";
@@ -17,10 +17,11 @@ export default async function Page() {
 
   const [statsRes, linksRes] = await Promise.all([
     userApi.getStats(authToken),
-    userApi.getLinks(authToken)
+    userApi.getLinks(authToken, 1, 10)
   ])
 
   const stats = statsRes.data;
+  const links = linksRes.data.links;
 
   return (
     <>
@@ -63,7 +64,7 @@ export default async function Page() {
         <LongUrlInputWrapper />
         <div className="mt-16">
             <h3 className="text-lg md:text-2xl font-bold mb-6">Your Links</h3>
-            <LinksTable links={linksRes.data}/>
+            <LinksTable links={links}/>
         </div>
         <div className="mt-8">
             <PaginationDashboard />
