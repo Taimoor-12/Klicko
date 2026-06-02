@@ -16,7 +16,7 @@ export type UserLinks = {
 
 export type GetLinksResponse = {
   links: UserLinks[];
-  total: number;
+  totalPages: number;
 }
 
 export const userApi = {
