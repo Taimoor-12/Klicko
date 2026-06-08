@@ -9,12 +9,12 @@ import authRoutes from '../infrastructure/http/routes/authRoutes.js';
 import linkRoutes from '../infrastructure/http/routes/linkRoutes.js';
 import userRoutes from '../infrastructure/http/routes/userRoutes.js';
 import redirectRoute from '../infrastructure/http/routes/redirectRoute.js';
-import getEnv from '../shared/utils/getEnv.js';
+import { config } from '../config/index.js';
 
 export default function createApp(): Express {
   const app = express();
   app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: config.app.frontendUrl,
     credentials: true
   }));
   app.use(express.json());
@@ -22,7 +22,7 @@ export default function createApp(): Express {
 
   // Incoming request and outgoing response logging
   app.use((req, res, next) => {
-    if (process.env.NODE_ENV === 'test') return next();
+    if (config.app.nodeEnv === "test") return next();
     PinoHttp({
       logger,
       customLogLevel: (req, res, error) => {
@@ -61,7 +61,7 @@ export default function createApp(): Express {
     const details = err instanceof AppError ? err.details : undefined;
     const body: { message: string, stack?: string, details?: any } = { message, details };
 
-    if (process.env.NODE_ENV !== 'prod' && err.stack) body.stack = err.stack;
+    if (config.app.nodeEnv !== 'prod' && err.stack) body.stack = err.stack;
 
     res.status(status).json(body);
   });

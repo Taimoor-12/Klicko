@@ -1,14 +1,9 @@
 import jwt from 'jsonwebtoken';
 import type { ITokenService, TokenPayload } from '../../application/interfaces/ITokenService.js';
+import { config } from '../../config/index.js';
 
 class TokenService implements ITokenService {
-  private readonly secretKey: string;
-  
-  constructor() {
-    const secretKey = process.env.JWT_SECRET;
-    if (!secretKey) throw new Error('JWT_SECRET is not set in .env');
-    this.secretKey = secretKey;
-  }
+  private readonly secretKey = config.auth.jwtSecret;
 
   async sign(payload: TokenPayload): Promise<string> {
     return jwt.sign(payload, this.secretKey, { expiresIn: '1d'});

@@ -8,7 +8,7 @@ import LoginUseCase from "../../../application/useCases/loginUser/UseCase.js";
 import UserDoesNotExistError from "../../../domain/entities/user/errors/UserDoesNotExistError.js";
 import AppError from "../../../shared/errors/AppError.js";
 import IncorrectPasswordError from "../../../domain/entities/user/errors/IncorrectPasswordError.js";
-import getEnv from "../../../shared/utils/getEnv.js";
+import { config } from "../../../config/index.js";
 
 export default function makeLoginUserController() {
   const userRepository: UserRepository = new UserRepository(prisma);
@@ -25,7 +25,7 @@ export default function makeLoginUserController() {
       res.cookie('authToken', token, 
         { 
           httpOnly: true, 
-          secure: getEnv('COOKIE_SECURE') === 'true',
+          secure: config.auth.cookieSecure,
           maxAge: oneDay
         }
       );

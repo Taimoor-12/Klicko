@@ -3,6 +3,7 @@ import { ipKeyGenerator, rateLimit } from "express-rate-limit";
 import { RedisStore } from "rate-limit-redis";
 import RedisClient from "../../memory-store/client.js";
 import type { AuthenticatedRequest } from "../../http/AuthenticatedRequest.js";
+import { config } from "../../../config/index.js";
 
 type KeyType = 'ip' | 'userId' | 'email';
 
@@ -17,7 +18,7 @@ function makeRateLimiter({
   keyType?: KeyType,
   prefix: string
 }) {
-  if (process.env.NODE_ENV === 'test') {
+  if (config.app.nodeEnv === "test") {
     return (_req: Request, _res: Response, next: NextFunction) => next(); // passthrough
   }
   
