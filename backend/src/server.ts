@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import("./config/index.js");
 import("./index.js");
 
 const jobsDir = path.join(__dirname, "infrastructure/background-jobs");

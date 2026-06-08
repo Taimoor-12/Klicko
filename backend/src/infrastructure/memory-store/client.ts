@@ -1,11 +1,11 @@
 import { createClient } from "redis";
 import logger from "../../shared/logger.js";
-import getEnv from "../../shared/utils/getEnv.js";
+import { config } from "../../config/index.js";
 
-const redisUsername = getEnv("REDIS_USERNAME");
-const redisPassword = getEnv("REDIS_PASSWORD");
-const redisHost = getEnv("REDIS_HOST");
-const redisPort = Number(getEnv("REDIS_PORT"));
+const redisUsername = config.redis.username;
+const redisPassword = config.redis.password;
+const redisHost = config.redis.host;
+const redisPort = config.redis.port;
 
 const redisClient = createClient({
   username: redisUsername,

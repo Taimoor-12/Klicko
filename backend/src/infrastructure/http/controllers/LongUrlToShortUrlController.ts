@@ -8,11 +8,12 @@ import InvalidLongUrlError from "../../../domain/entities/link/errors/InvalidLon
 import AppError from "../../../shared/errors/AppError.js";
 import InvalidProtocolError from "../../../domain/entities/link/errors/InvalidProtocolError.js";
 import type { AuthenticatedRequest } from "../AuthenticatedRequest.js";
+import { config } from "../../../config/index.js";
 
 export default function makeLongUrlToShortUrlController() {
   const linkRepository: LinkRepository = new LinkRepository(prisma);
   const linkSequenceRepository: LinkSequenceRepository = new LinkSequenceRepository(prisma);
-  const baseUrl = `${process.env.APP_BASE_URL}`;
+  const baseUrl = config.app.baseUrl;
   const longUrltoShortUrlUseCase = new LongUrlToShortUseCase({ linkRepository, linkSequenceRepository, baseUrl });
 
   async function convertLongUrlToShort(req: Request | AuthenticatedRequest, res: Response, next: NextFunction) {
