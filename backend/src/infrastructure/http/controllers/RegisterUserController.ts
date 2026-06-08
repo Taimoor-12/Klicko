@@ -9,6 +9,7 @@ import UserAlreadyExistsError from "../../../domain/entities/user/errors/UserAlr
 import AppError from "../../../shared/errors/AppError.js";
 import InvalidPasswordError from "../../../domain/entities/user/errors/InvalidPasswordError.js";
 import InvalidEmailError from "../../../domain/entities/user/errors/InvalidEmailError.js";
+import getEnv from "../../../shared/utils/getEnv.js";
 
 export default function makeRegisterUserController() {
   const userRepository: UserRepository = new UserRepository(prisma);
@@ -25,7 +26,7 @@ export default function makeRegisterUserController() {
       res.cookie('authToken', token, 
         { 
           httpOnly: true, 
-          secure: process.env.NODE_ENV === 'prod',
+          secure: getEnv('COOKIE_SECURE') === 'true',
           maxAge: oneDay
         }
       );
