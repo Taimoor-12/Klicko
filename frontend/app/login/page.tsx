@@ -2,6 +2,7 @@ import { LoginForm } from "@/components/login-form";
 import { Metadata } from 'next';
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: 'Log In',
@@ -21,7 +22,9 @@ export default function Page() {
             priority
           />
         </Link>
-        <LoginForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   )
