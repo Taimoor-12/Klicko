@@ -27,9 +27,7 @@ export default function makeRegisterUserController() {
         { 
           httpOnly: true, 
           secure: config.auth.cookieSecure,
-          maxAge: oneDay,
-          sameSite: 'none',
-          path: '/'
+          maxAge: oneDay
         }
       );
 
