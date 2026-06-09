@@ -2,6 +2,7 @@ import { SignupForm } from "@/components/signup-form";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from 'next';
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: 'Sign Up',
@@ -21,7 +22,9 @@ export default function SignupPage() {
             priority
           />
         </Link>
-        <SignupForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <SignupForm />
+        </Suspense>
       </div>
     </div>
   )
