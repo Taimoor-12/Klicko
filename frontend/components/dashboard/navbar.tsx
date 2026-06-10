@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { authApi } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
+import { logout } from "@/lib/actions/user";
 
 export function Navbar() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export function Navbar() {
   const handleLogout = async () => {
     try {
       setLoading(true);
-      const res = await authApi.logout();
+      const res = await logout();
 
       if (res.status === 200) {
         router.push("/login");

@@ -17,10 +17,10 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { authApi } from "@/lib/api"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link";
 import { createLinkIfNeeded } from "@/lib/actions/link";
+import { register } from "@/lib/actions/user"
 
 export function SignupForm({
   className,
@@ -67,7 +67,7 @@ export function SignupForm({
     const { confirmPassword, ...body } = data;
 
     try {
-      const res = await authApi.register(body);
+      const res = await register(data);
       if (res) { 
         await createLinkIfNeeded(longUrl);
         router.push(callbackUrl);

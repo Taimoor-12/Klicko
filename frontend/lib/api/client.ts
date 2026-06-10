@@ -16,9 +16,10 @@ type ErrorResponse = {
   details?: any;
 }
 
-type ApiResponse<T> = {
+export type ApiResponse<T> = {
   data: T;
   status: number;
+  headers: Headers
 }
 
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
@@ -64,7 +65,8 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
 
     return {
       data,
-      status: response.status
+      status: response.status,
+      headers: response.headers
     };
   } catch (err) {
     if (err instanceof TypeError) {

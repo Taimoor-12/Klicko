@@ -27,7 +27,6 @@ export default function makeLoginUserController() {
           httpOnly: true, 
           secure: config.auth.cookieSecure,
           maxAge: oneDay,
-          sameSite: "none"
         }
       );
 
