@@ -23,6 +23,10 @@ jobs:
             cd ~/Klicko/backend
             git pull origin main
 
+            echo "LATEST COMMIT:"
+            git log -1
+
+
             npm install
             npm run build
 
