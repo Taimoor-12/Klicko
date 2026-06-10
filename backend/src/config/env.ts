@@ -18,6 +18,8 @@ const envSchema = z.object({
   REDIS_PASSWORD: z.string(),
   REDIS_HOST: z.string(),
   REDIS_PORT: z.string().transform(Number),
+
+  BULLMQ_JOB_ID: z.string().default(""),
 });
 
 const parsed = envSchema.safeParse(process.env);

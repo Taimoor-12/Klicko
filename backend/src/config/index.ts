@@ -26,4 +26,8 @@ export const config = {
     host: env.REDIS_HOST,
     port: env.REDIS_PORT,
   },
+
+  queue: {
+    jobId: env.BULLMQ_JOB_ID
+  },
 } as const;
