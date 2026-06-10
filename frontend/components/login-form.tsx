@@ -18,9 +18,9 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link";
 import { useState } from "react";
-import { authApi } from "@/lib/api";
 import { useSearchParams, useRouter } from "next/navigation";
 import { createLinkIfNeeded } from "@/lib/actions/link";
+import { login } from "@/lib/actions/user"
 
 export function LoginForm({
   className,
@@ -52,7 +52,7 @@ export function LoginForm({
       }
   
       try {
-        const res = await authApi.login(data);
+        const res = await login(data);
         if (res) {
           await createLinkIfNeeded(longUrl); 
           router.push(callbackUrl);
