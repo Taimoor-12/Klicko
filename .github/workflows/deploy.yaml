@@ -27,7 +27,7 @@ jobs:
             git log -1
 
 
-            npm install
+            npm ci
             npm run build
 
             pm2 restart klicko-backend
