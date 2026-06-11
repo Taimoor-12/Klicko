@@ -15,7 +15,7 @@ const envSchema = z.object({
   COOKIE_SECURE: z.string().default("false"),
 
   JWT_SECRET: z.string().max(50),
-  BCRYPT_SALT: z.string().transform(Number),
+  BCRYPT_SALT: z.string().transform(Number).optional(),
 
   REDIS_USERNAME: isTest ? z.string().optional().default("") : z.string(),
   REDIS_PASSWORD: isTest ? z.string().optional().default("") : z.string(),
