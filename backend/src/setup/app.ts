@@ -14,9 +14,11 @@ import { config } from '../config/index.js';
 export default function createApp(): Express {
   const app = express();
   app.use(cors({
-    origin: config.app.frontendUrl,
-    credentials: true
-  }));
+  origin: config.app.nodeEnv === "test"
+    ? true
+    : config.app.frontendUrl,
+  credentials: true
+}));
   app.use(express.json());
   app.use(cookieParser());
 
