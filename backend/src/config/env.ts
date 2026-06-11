@@ -1,8 +1,11 @@
 import { z } from "zod";
 
+const isTest = process.env.NODE_ENV === "test";
+
 const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   TEST_DATABASE_URL: z.string().min(1).optional(),
+
   APP_BASE_URL: z.url(),
   FRONTEND_URL: z.url(),
 
@@ -14,10 +17,10 @@ const envSchema = z.object({
   JWT_SECRET: z.string().max(50),
   BCRYPT_SALT: z.string().transform(Number),
 
-  REDIS_USERNAME: z.string(),
-  REDIS_PASSWORD: z.string(),
-  REDIS_HOST: z.string(),
-  REDIS_PORT: z.string().transform(Number),
+  REDIS_USERNAME: isTest ? z.string().optional() : z.string(),
+  REDIS_PASSWORD: isTest ? z.string().optional() : z.string(),
+  REDIS_HOST: isTest ? z.string().optional() : z.string(),
+  REDIS_PORT: isTest ? z.string().optional() : z.string().transform(Number),
 
   BULLMQ_JOB_ID: z.string().default(""),
 });
