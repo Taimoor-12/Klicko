@@ -1,26 +1,24 @@
 import { z } from "zod";
 
-const isTest = process.env.NODE_ENV === "test";
-
 const envSchema = z.object({
-  DATABASE_URL: isTest ? z.string().min(1).optional() : z.string().min(1),
-  TEST_DATABASE_URL: !isTest ? z.string().min(1).optional() : z.string().min(1),
+  DATABASE_URL: z.string().min(1).optional(),
+  TEST_DATABASE_URL: z.string().optional(),
 
   APP_BASE_URL: z.url(),
-  FRONTEND_URL: z.url(),
+  FRONTEND_URL: z.url().optional(),
 
-  PORT: z.string().default("4000"),
+  PORT: z.string().default("3000"),
   NODE_ENV: z.enum(["dev", "prod", "test"]),
 
   COOKIE_SECURE: z.string().default("false"),
 
   JWT_SECRET: z.string().max(50),
-  BCRYPT_SALT: z.string().transform(Number).optional(),
+  BCRYPT_SALT: z.string().transform(Number).default(10),
 
-  REDIS_USERNAME: isTest ? z.string().optional().default("") : z.string(),
-  REDIS_PASSWORD: isTest ? z.string().optional().default("") : z.string(),
-  REDIS_HOST: isTest ? z.string().optional() : z.string(),
-  REDIS_PORT: isTest ? z.string().optional().transform(Number) : z.string().transform(Number),
+  REDIS_USERNAME: z.string().optional().default(""),
+  REDIS_PASSWORD: z.string().optional().default(""),
+  REDIS_HOST: z.string().optional(),
+  REDIS_PORT: z.string().optional().transform(Number),
 
   BULLMQ_JOB_ID: z.string().default(""),
 });
@@ -33,4 +31,18 @@ if (!parsed.success) {
   process.exit(1);
 }
 
-export const env = parsed.data;
+const env = parsed.data;
+
+if (env.NODE_ENV !== "test" && !env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is required in non-test environments");
+}
+
+if (env.NODE_ENV === "test" && !env.TEST_DATABASE_URL) {
+  throw new Error("TEST_DATABASE_URL is required in test environment");
+}
+
+if (env.NODE_ENV !== "test" && !env.FRONTEND_URL) {
+  throw new Error("FRONTEND_URL is required in non-test environments");
+}
+
+export { env };
