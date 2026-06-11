@@ -3,8 +3,8 @@ import { z } from "zod";
 const isTest = process.env.NODE_ENV === "test";
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().min(1),
-  TEST_DATABASE_URL: z.string().min(1).optional(),
+  DATABASE_URL: isTest ? z.string().min(1).optional() : z.string().min(1),
+  TEST_DATABASE_URL: !isTest ? z.string().min(1).optional() : z.string().min(1),
 
   APP_BASE_URL: z.url(),
   FRONTEND_URL: z.url(),
