@@ -37,7 +37,7 @@ jobs:
         run: npm ci
       
       - name: Generate Prisma Client
-        run: npm run generate
+        run: npm run generate:test
 
       - name: Run migrations (test DB)
         run: npm run migrate-test
