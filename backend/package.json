@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
     "prebuild": "npm run generate",
     "build": "tsc",
     "start": "npm run migrate-deploy && node dist/server.js",
