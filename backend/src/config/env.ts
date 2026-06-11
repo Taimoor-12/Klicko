@@ -17,10 +17,10 @@ const envSchema = z.object({
   JWT_SECRET: z.string().max(50),
   BCRYPT_SALT: z.string().transform(Number),
 
-  REDIS_USERNAME: isTest ? z.string().optional() : z.string(),
-  REDIS_PASSWORD: isTest ? z.string().optional() : z.string(),
+  REDIS_USERNAME: isTest ? z.string().optional().default("") : z.string(),
+  REDIS_PASSWORD: isTest ? z.string().optional().default("") : z.string(),
   REDIS_HOST: isTest ? z.string().optional() : z.string(),
-  REDIS_PORT: isTest ? z.string().optional() : z.string().transform(Number),
+  REDIS_PORT: isTest ? z.string().optional().transform(Number) : z.string().transform(Number),
 
   BULLMQ_JOB_ID: z.string().default(""),
 });
