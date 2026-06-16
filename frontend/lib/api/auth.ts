@@ -20,7 +20,7 @@ export const authApi = {
     }),
 
   check: () =>
-    request<{ loggedIn: boolean; user: User }>('/api/auth/me'),
+    request<{ loggedIn: boolean; user: User }>('/api/auth/check'),
 
   logout: () =>
     request<{ message: string }>('/api/auth/logout', {
