@@ -6,9 +6,11 @@ import { cookies } from "next/headers";
 import { LongUrlInputWrapper } from "@/components/dashboard/long-url-input-wrapper";
 import { LinksTable } from "@/components/dashboard/links-table";
 import { PaginationDashboard } from "@/components/dashboard/pagination";
+import { redirect } from "next/navigation";
+import ErrorState from "@/components/dashboard/error-state";
 
-export default async function Page({ 
-  searchParams 
+export default async function Page({
+  searchParams,
 }: {
   searchParams: Promise<{ page?: string }>;
 }) {
@@ -18,18 +20,23 @@ export default async function Page({
   const authToken = cookieStore.get("authToken")?.value;
 
   if (!authToken) {
-    throw new Error("Unauthorized");
+    redirect("/login");
   }
 
   const page = Number(params.page) || 1;
 
-  const [statsRes, linksRes] = await Promise.all([
-    userApi.getStats(authToken),
-    userApi.getLinks(authToken, page, 10)
-  ])
+  const statsRes = await userApi.getStats(authToken);
+  if (statsRes.error) {
+    return <ErrorState error={statsRes.error} />;
+  }
 
-  const stats = statsRes.data;
-  const { links, totalPages } = linksRes.data;
+  const linksRes = await userApi.getLinks(authToken, page, 10);
+  if (linksRes.error) {
+    return <ErrorState error={linksRes.error} />;
+  }
+
+  const stats = statsRes.data!;
+  const { links, totalPages } = linksRes.data!;
 
   return (
     <>
@@ -71,11 +78,11 @@ export default async function Page({
         </div>
         <LongUrlInputWrapper />
         <div className="mt-16">
-            <h3 className="text-lg md:text-2xl font-bold mb-6">Your Links</h3>
-            <LinksTable links={links}/>
+          <h3 className="text-lg md:text-2xl font-bold mb-6">Your Links</h3>
+          <LinksTable links={links} />
         </div>
         <div className="mt-8 mb-8">
-            <PaginationDashboard currentPage={page} totalPages={totalPages}/>
+          <PaginationDashboard currentPage={page} totalPages={totalPages} />
         </div>
       </main>
     </>

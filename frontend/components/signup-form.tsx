@@ -67,13 +67,15 @@ export function SignupForm({
     const { confirmPassword, ...body } = data;
 
     try {
-      const res = await register(data);
-      if (res) { 
+      const res = await register(body);
+      if ("data" in res) { 
         await createLinkIfNeeded(longUrl);
         router.push(callbackUrl);
+      } else {
+        setError(res.error);
       }
-    } catch (error: any) {
-      setError(error.message);
+    } catch {
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }

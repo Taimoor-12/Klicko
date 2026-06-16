@@ -1,26 +1,26 @@
-'use client'
+"use client";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { createLinkIfNeeded } from "@/lib/actions/link";
-import { login } from "@/lib/actions/user"
+import { login } from "@/lib/actions/user";
 
 export function LoginForm({
   className,
@@ -30,40 +30,43 @@ export function LoginForm({
   const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const longUrl = searchParams.get('longUrl') || '';
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const longUrl = searchParams.get("longUrl") || "";
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-      e.preventDefault();
-      setLoading(true);
-      setError("");
-  
-      const formData = new FormData(e.currentTarget);
-  
-      const data = {
-        email: formData.get("email") as string,
-        password: formData.get("password") as string
-      };
-  
-      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email)) {
-        setError("Invalid email address format");
-        setLoading(false);
-        return;
-      }
-  
-      try {
-        const res = await login(data);
-        if (res) {
-          await createLinkIfNeeded(longUrl); 
-          router.push(callbackUrl);
-        }
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+
+    const data = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email)) {
+      setError("Invalid email address format");
+      setLoading(false);
+      return;
     }
-  
+
+    try {
+      const res = await login(data);
+
+      if ("data" in res) {
+        await createLinkIfNeeded(longUrl);
+        router.push(callbackUrl);
+      } else {
+        setError(res.error);
+      }
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -99,10 +102,13 @@ export function LoginForm({
                 <Input id="password" name="password" type="password" required />
               </Field>
               <Field>
-                <Button type="submit" disabled={loading}>{loading ? "Logging in..." : "Login"}</Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Logging in..." : "Login"}
+                </Button>
                 {error && <p className="text-red-500">{error}</p>}
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link href="/signup">Sign up</Link>
+                  Don&apos;t have an account?{" "}
+                  <Link href="/signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
@@ -110,5 +116,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

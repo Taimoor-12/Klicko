@@ -11,15 +11,16 @@ type RequestOptions = {
   queryParams?: Record<string, string | number>;
 };
 
-type ErrorResponse = {
+export type ApiError = {
   message: string;
   details?: any;
 }
 
 export type ApiResponse<T> = {
-  data: T;
-  status: number;
-  headers: Headers
+  data?: T;
+  error?: ApiError;
+  status?: number;
+  headers?: Headers;
 }
 
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
@@ -51,29 +52,31 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
       body: body ? JSON.stringify(body) : undefined
     });
 
+    const json = await response.json().catch(() => null);
+
     if (response.status === 429) {
-      throw new Error('Too many requests. Please try again later.');
+      return {
+        error: { message: 'Too many requests. Please try again later.' } ,
+        status: response.status
+      }
     }
 
     if (!response.ok) {
-      const error: ErrorResponse = await response.json();
-
-      throw new Error(error.message ?? 'Something went wrong');
+      return {
+        error: { message: json?.message || 'Something went wrong' },
+        status: response.status
+      }
     }
 
-    const data = await response.json();
-
     return {
-      data,
+      data: json,
       status: response.status,
       headers: response.headers
     };
-  } catch (err) {
-    if (err instanceof TypeError) {
-      throw new Error("Unreachable. Please try again later.");
-    }
-
-    throw err;
+  } catch {
+    return {
+      error: { message: 'Network error. Please try again later.' },
+    };
   }
 }
 
