@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { createLinkIfNeeded } from "@/lib/actions/link";
+import { shortenUrl } from "@/lib/actions/link";
 import { login } from "@/lib/actions/user";
 
 export function LoginForm({
@@ -55,12 +55,13 @@ export function LoginForm({
       const res = await login(data);
 
       if ("data" in res) {
-        await createLinkIfNeeded(longUrl);
+        await shortenUrl(longUrl);
         router.push(callbackUrl);
       } else {
         setError(res.error);
       }
-    } catch {
+    } catch (err) {
+      console.log(err);
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);

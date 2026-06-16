@@ -9,7 +9,7 @@ import { Loader2, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-export function LongUrlInputWrapper({ authToken }: { authToken: string }) {
+export function LongUrlInputWrapper() {
   const router = useRouter();
   const [inputUrl, setInputUrl] = useState("");
   const [error, setError] = useState("");
@@ -37,7 +37,7 @@ export function LongUrlInputWrapper({ authToken }: { authToken: string }) {
     try {
       setLoading(true);
       setError("");
-      await linkApi.longToShortUrl({ longUrl: normalized }, authToken);
+      await linkApi.longToShortUrl({ longUrl: normalized });
       setInputUrl(""); // clear input
       router.refresh(); // ← re-fetches server component data
       toast.success("Link shortened!");

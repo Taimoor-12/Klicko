@@ -5,12 +5,9 @@ export type LongToShortResponse = {
 };
 
 export const linkApi = {
-  longToShortUrl: (data: { longUrl: string }, authToken?: string) =>
+  longToShortUrl: (data: { longUrl: string } ) =>
     request<LongToShortResponse>('/api/urls/shorten', {
       method: 'POST',
-      body: data,
-      headers: {
-        Cookie: `authToken=${authToken}`
-      }
+      body: data
     }),
 }

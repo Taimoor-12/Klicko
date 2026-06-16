@@ -12,7 +12,7 @@ export async function register({
   email: string;
   password: string;
   name?: string;
-}) {
+}, longUrl?: string) {
   const res = await authApi.register({ email, password, name });
 
   if (isError(res)) {
@@ -31,7 +31,7 @@ export async function register({
 
 export async function login({
   email,
-  password,
+  password
 }: {
   email: string;
   password: string;

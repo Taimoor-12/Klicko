@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link";
-import { createLinkIfNeeded } from "@/lib/actions/link";
+import { shortenUrl } from "@/lib/actions/link";
 import { register } from "@/lib/actions/user"
 
 export function SignupForm({
@@ -68,8 +68,8 @@ export function SignupForm({
 
     try {
       const res = await register(body);
-      if ("data" in res) { 
-        await createLinkIfNeeded(longUrl);
+      if ("data" in res) {
+        await shortenUrl(longUrl); 
         router.push(callbackUrl);
       } else {
         setError(res.error);
