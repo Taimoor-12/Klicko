@@ -22,12 +22,12 @@ export default function makeRegisterUserController() {
       const dto = new RequestDTO(req.body);
       const { user, token } = await registerUseCase.execute(dto);
 
-      const oneDay = 24 * 60 * 60 * 1000;
+      const oneDayinMs = 24 * 60 * 60 * 1000;
       res.cookie('authToken', token, 
         { 
           httpOnly: true, 
           secure: config.auth.cookieSecure,
-          maxAge: oneDay,
+          maxAge: oneDayinMs,
         }
       );
 

@@ -57,14 +57,14 @@ async function setCookieForFrontend(res: ApiResponse<User>) {
   const tokenMatch = setCookieHeader?.match(/authToken=([^;]+)/);
   const token = tokenMatch?.[1];
 
-  const oneDay = 24 * 60 * 60 * 1000;
+  const oneDayInSeconds = 24 * 60 * 60;
 
   if (token) {
     const cookieStore = await cookies();
     cookieStore.set("authToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: oneDay,
+      maxAge: oneDayInSeconds,
     });
   }
 }

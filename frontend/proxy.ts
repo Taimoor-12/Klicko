@@ -2,22 +2,36 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
-  const token = request.cookies.get('authToken');
-  const isOnDashboard = request.nextUrl.pathname.startsWith('/dashboard');
+  const token = request.cookies.get("authToken")?.value;
+  const { pathname } = request.nextUrl;
 
-  if (isOnDashboard && !token) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
+  const isProtectedRoute = pathname.startsWith("/dashboard");
+
+  if (!token && isProtectedRoute) {
+    const loginUrl = new URL("/login", request.url);
+
+    loginUrl.searchParams.set(
+      "callbackUrl",
+      pathname + request.nextUrl.search
+    );
+
     return NextResponse.redirect(loginUrl);
   }
 
-  if (!isOnDashboard && token) {
-    return NextResponse.redirect(new URL('dashboard', request.url));
+  if (!isProtectedRoute && token) {
+    return NextResponse.redirect(
+      new URL("/dashboard", request.url)
+    );
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/signup', '/login', '/']
-}
+  matcher: [
+    "/dashboard/:path*",
+    "/login",
+    "/signup",
+    "/"
+  ],
+};

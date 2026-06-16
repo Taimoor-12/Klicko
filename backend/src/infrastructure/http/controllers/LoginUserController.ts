@@ -21,12 +21,12 @@ export default function makeLoginUserController() {
       const dto = new RequestDTO(req.body);
       const { user, token } = await loginUseCase.execute(dto);
       
-      const oneDay = 24 * 60 * 60 * 1000;
+      const oneDayInMs = 24 * 60 * 60 * 1000;
       res.cookie('authToken', token, 
         { 
           httpOnly: true, 
           secure: config.auth.cookieSecure,
-          maxAge: oneDay,
+          maxAge: oneDayInMs,
         }
       );
 
