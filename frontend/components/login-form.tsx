@@ -21,7 +21,6 @@ import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { shortenUrl } from "@/lib/actions/link";
 import { login } from "@/lib/actions/user";
-import { authApi } from "@/lib/api";
 
 export function LoginForm({
   className,
@@ -53,13 +52,13 @@ export function LoginForm({
     }
 
     try {
-      const res = await authApi.login(data);
+      const res = await login(data);
 
       if ("data" in res) {
         await shortenUrl(longUrl);
         router.push(callbackUrl);
       } else {
-        setError(res.error!.message);
+        setError(res.error);
       }
     } catch (err) {
       console.log(err);

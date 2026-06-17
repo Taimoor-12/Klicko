@@ -90,5 +90,6 @@ async function setCookieForFrontend(res: ApiResponse<User>) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     maxAge: oneDayInSeconds,
+    sameSite: 'none'
   });
 }
